@@ -61,44 +61,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/classes/public</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/webapp/client-prod</directory>
-                                    <filtering>true</filtering>
-                                    <excludes>
-                                        <exclude>**/*.woff2</exclude>
-                                        <exclude>**/*.woff</exclude>
-                                        <exclude>**/*.ttf</exclude>
-                                        <exclude>**/*.eot</exclude>
-                                    </excludes>
-                                </resource>
-                                <resource>
-                                    <directory>src/main/webapp/client-prod</directory>
-                                    <filtering>false</filtering>
-                                    <includes>
-                                        <include>**/*.woff2</include>
-                                        <include>**/*.woff</include>
-                                        <include>**/*.ttf</include>
-                                        <include>**/*.eot</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
