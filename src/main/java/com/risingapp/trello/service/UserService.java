@@ -32,7 +32,7 @@ public class UserService {
     @Autowired private PhotoRepository photoRepository;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    private static final String PHOTO_URL = "http://localhost:8080/rest/user/photo/get";
+    private static final String PHOTO_URL = "https://likeittrello.herokuapp.com/rest/user/photo/get";
 
     @Transactional
     public ResponseEntity<Void> registration(RegistrationUserRequest request) {
@@ -106,12 +106,15 @@ public class UserService {
         Photo photo = new Photo();
         photo.setUser(currentUser);
         photo.setBase64(base64);
+        photoRepository.save(photo);
         photo.setLink(PHOTO_URL + "/" + currentUser.getId());
+        currentUser.setPhoto(photo);
+        userRepository.save(currentUser);
+
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @Transactional
-
     public ResponseEntity<Void> getPhoto(HttpServletResponse response, long userId) {
         try {
             User user = userRepository.findOne(userId);

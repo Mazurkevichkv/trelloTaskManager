@@ -18,4 +18,9 @@ public class FrontendController {
     public String getWelcome() {
         return "login.html";
     }
+
+    @RequestMapping(value = "/first")
+    public String getTest() {
+        return "test.html";
+    }
 }
