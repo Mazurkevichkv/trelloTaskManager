@@ -26,8 +26,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     public void registerGlobalAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(getShaPasswordEncoder());
+                .userDetailsService(userDetailsService);
+//                .passwordEncoder(getShaPasswordEncoder());
     }
 
     @Override
@@ -36,7 +36,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 //                    .antMatchers("/**").permitAll()
-                    .antMatchers("/rest/**").permitAll()
+//                    .antMatchers("/rest/**").permitAll()
+                .antMatchers("/rest/**").authenticated()
 //                    .antMatchers("/rest/**").hasAnyRole(UserRole.PRODUCT_OWNER, UserRole.TEAM_LEAD, UserRole.DEVELOPER)
                 .and()
                     .exceptionHandling().accessDeniedPage("/unauthorized")
@@ -64,8 +65,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**"); // #3
     }
 
-    @Bean
-    public ShaPasswordEncoder getShaPasswordEncoder(){
-        return new ShaPasswordEncoder();
-    }
+//    @Bean
+//    public ShaPasswordEncoder getShaPasswordEncoder(){
+//        return new ShaPasswordEncoder();
+//    }
 }

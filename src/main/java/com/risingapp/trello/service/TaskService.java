@@ -75,8 +75,9 @@ public class TaskService {
         GetTaskResponse response = new GetTaskResponse();
         response.setId(task.getId());
         response.setText(task.getText());
-        response.setCreatorId(task.getCreator().getId());
         response.setStatus(task.getStatus());
+        if (task.getCreator() != null)
+            response.setCreatorId(task.getCreator().getId());
         if (task.getDeveloper() != null)
             response.setDeveloperId(task.getDeveloper().getId());
         return response;
