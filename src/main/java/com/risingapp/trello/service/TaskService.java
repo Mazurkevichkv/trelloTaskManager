@@ -6,6 +6,7 @@ import com.risingapp.trello.model.response.GetTaskResponse;
 import com.risingapp.trello.model.response.GetTasksResponse;
 import com.risingapp.trello.repository.TaskRepository;
 import com.risingapp.trello.repository.UserRepository;
+import com.risingapp.trello.utils.FileProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +36,20 @@ public class TaskService {
         task.setText(request.getText());
         task.setCreator(productOwner);
         taskRepository.save(task);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //TODO
     @Transactional
     public ResponseEntity<Void> addTask(MultipartFile file) {
-        return null;
+        FileProcessor processor = new FileProcessor(file);
+        processor.process();
+        if (!processor.hasErrors()) {
+            taskRepository.save(processor.getTask());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 
     @Transactional

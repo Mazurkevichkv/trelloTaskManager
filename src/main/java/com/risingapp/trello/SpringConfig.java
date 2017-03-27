@@ -34,6 +34,7 @@ public class SpringConfig {
     @Value("${hbm2ddl.auto}")
     private String hbm2ddlAuto;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory
             (DataSource dataSource, JpaVendorAdapter jpaVendeorAdapter) {
