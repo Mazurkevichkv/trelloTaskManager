@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FrontendController {
 
     @RequestMapping(value = "/index")
-    public String index() {
-        return "shop.html";
+    public String getIndex() {
+        return "main.html";
+    }
+
+    @RequestMapping(value = "/welcome")
+    public String getWelcome() {
+        return "login.html";
     }
 }

@@ -11,4 +11,14 @@ public class SpringApplication {
     public static void main(String[] args) {
         org.springframework.boot.SpringApplication.run(SpringApplication.class,args);
     }
+
+//    @Bean
+//    public CommandLineRunner demo(final UserService userService, final MockCreator mockCreator) {
+//        return new CommandLineRunner() {
+//            @Override
+//            public void run(String... strings) throws Exception {
+//                userService.registration(mockCreator.creatDeveloper());
+//            }
+//        };
+//    }
 }
