@@ -2,6 +2,7 @@ package com.risingapp.trello.service;
 
 import com.risingapp.trello.entity.*;
 import com.risingapp.trello.model.request.RegistrationUserRequest;
+import com.risingapp.trello.model.response.AddPhotoResponse;
 import com.risingapp.trello.model.response.GetUserResponse;
 import com.risingapp.trello.model.response.GetUsersResponse;
 import com.risingapp.trello.repository.PhotoRepository;
@@ -99,7 +100,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<Void> addPhoto(MultipartFile file) throws IOException {
+    public AddPhotoResponse addPhoto(MultipartFile file) throws IOException {
 
         User currentUser = sessionService.getCurrentUser();
         String base64 = Base64.encode(file.getBytes());
@@ -110,8 +111,9 @@ public class UserService {
         photo.setLink(PHOTO_URL + "/" + currentUser.getId());
         currentUser.setPhoto(photo);
         userRepository.save(currentUser);
-
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        AddPhotoResponse response = new AddPhotoResponse();
+        response.setUrl(photo.getLink());
+        return response;
     }
 
     @Transactional

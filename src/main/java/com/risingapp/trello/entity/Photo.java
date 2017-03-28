@@ -13,9 +13,9 @@ import javax.persistence.*;
 public class Photo {
 
     @Id
-    @Column(columnDefinition="TEXT")
-    private Long id;
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(columnDefinition="TEXT")
     private String base64;
     private String link;
 

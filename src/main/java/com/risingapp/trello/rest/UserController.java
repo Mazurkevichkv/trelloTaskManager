@@ -1,6 +1,7 @@
 package com.risingapp.trello.rest;
 
 import com.risingapp.trello.model.request.RegistrationUserRequest;
+import com.risingapp.trello.model.response.AddPhotoResponse;
 import com.risingapp.trello.model.response.GetUserResponse;
 import com.risingapp.trello.model.response.GetUsersResponse;
 import com.risingapp.trello.service.UserService;
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/photo/add", method = RequestMethod.POST)
-    public ResponseEntity<Void> addPhoto(@RequestParam(name = "photo") MultipartFile photo) throws IOException {
+    public AddPhotoResponse addPhoto(@RequestParam(name = "photo") MultipartFile photo) throws IOException {
         return userService.addPhoto(photo);
     }
 
