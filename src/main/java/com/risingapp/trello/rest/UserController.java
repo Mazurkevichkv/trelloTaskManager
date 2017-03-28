@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/photo/add", method = RequestMethod.POST)
-    public AddPhotoResponse addPhoto(@RequestParam(name = "photo") MultipartFile photo) throws IOException {
+    public @ResponseBody AddPhotoResponse addPhoto(@RequestParam(name = "photo") MultipartFile photo) throws IOException {
         return userService.addPhoto(photo);
     }
 
