@@ -43,6 +43,7 @@ public class TaskService {
             priority.setPriority(request.getPriority());
         }
         Task task = new Task();
+        task.setTitle(request.getTitle());
         task.setText(request.getText());
         task.setCreator(productOwner);
         task.setPriority(priority);
@@ -95,6 +96,7 @@ public class TaskService {
             response.setDeveloperId(task.getDeveloper().getId());
         if (task.getPriority() != null)
             response.setPriority(task.getPriority().getPriority());
+        response.setTitle(task.getTitle());
         return response;
     }
     @Transactional

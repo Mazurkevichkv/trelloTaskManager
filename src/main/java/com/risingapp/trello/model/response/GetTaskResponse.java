@@ -10,6 +10,7 @@ import lombok.Data;
 public class GetTaskResponse {
 
     private long id;
+    private String title;
     private String text;
     private long creatorId;
     private long developerId;

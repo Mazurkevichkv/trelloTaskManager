@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class AddTaskRequest {
 
+    private String title;
     private String text;
     private String priority;
 }
