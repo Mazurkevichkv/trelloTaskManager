@@ -10,7 +10,7 @@ public class RegistrationUserRequest {
 
     private String email;
     private String password;
-    private String firstNmae;
+    private String firstName;
     private String lastName;
     private String birthday;
     private String role;

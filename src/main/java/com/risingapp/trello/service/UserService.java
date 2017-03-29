@@ -40,7 +40,7 @@ public class UserService {
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setFirstName(request.getFirstNmae());
+        user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setBirthday(request.getBirthday());
         user.setRegistrationDay(sdf.format(new Date()));
