@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Photo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     @Column(columnDefinition="TEXT")
     private String base64;

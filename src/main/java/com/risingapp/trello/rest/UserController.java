@@ -18,33 +18,38 @@ import java.io.IOException;
  * Created by zinoviyzubko on 27.03.17.
  */
 @Controller
-@RequestMapping(value = "/rest/user")
+@RequestMapping(value = "/rest")
 public class UserController {
 
     @Autowired UserService userService;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<Void> registration(@RequestBody RegistrationUserRequest request) {
         return userService.registration(request);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public @ResponseBody GetUserResponse getUser(@PathVariable("id") long id) {
         return userService.getUser(id);
     }
 
-    @RequestMapping(value = "/get/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public @ResponseBody GetUsersResponse getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @RequestMapping(value = "/photo/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/photo", method = RequestMethod.POST)
     public @ResponseBody AddPhotoResponse addPhoto(@RequestParam(name = "photo") MultipartFile photo) throws IOException {
         return userService.addPhoto(photo);
     }
 
-    @RequestMapping(value = "/photo/get/{id}")
+    @RequestMapping(value = "/photo/{id}")
     public ResponseEntity<Void> getPhoto(@PathVariable("id") long id, HttpServletResponse response) {
         return userService.getPhoto(response, id);
+    }
+
+    @RequestMapping(value = "/user/current")
+    public @ResponseBody GetUserResponse getCurrentUser() {
+        return userService.getCurrentUser();
     }
 }
