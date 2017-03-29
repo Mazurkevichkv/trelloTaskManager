@@ -1,5 +1,6 @@
 package com.risingapp.trello.service;
 
+import com.risingapp.trello.SpringSecurity;
 import com.risingapp.trello.entity.*;
 import com.risingapp.trello.model.request.AddTaskRequest;
 import com.risingapp.trello.model.response.GetTaskResponse;
@@ -7,9 +8,11 @@ import com.risingapp.trello.model.response.GetTasksResponse;
 import com.risingapp.trello.repository.TaskRepository;
 import com.risingapp.trello.repository.UserRepository;
 import com.risingapp.trello.utils.FileProcessor;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,10 +31,12 @@ public class TaskService {
     @Autowired private UserRepository userRepository;
     @Autowired private SessionService sessionService;
 
+    Logger log = Logger.getLogger(TaskService.class);
+
     @Transactional
     public ResponseEntity<Void> addTask(AddTaskRequest request) {
-
-        ProductOwner productOwner = (ProductOwner) userRepository.findUserByEmail(request.getCreatorEmail());
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        ProductOwner productOwner = (ProductOwner) userRepository.findUserByEmail(currentUserEmail);
         Task task = new Task();
         task.setText(request.getText());
         task.setCreator(productOwner);
@@ -42,10 +47,13 @@ public class TaskService {
     //TODO
     @Transactional
     public ResponseEntity<Void> addTask(MultipartFile file) {
-        FileProcessor processor = new FileProcessor(file);
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        FileProcessor processor = new FileProcessor(file, (ProductOwner) userRepository.findUserByEmail(currentUserEmail));
         processor.process();
         if (!processor.hasErrors()) {
-            taskRepository.save(processor.getTask());
+            for (Task task : processor.getTaskList()) {
+                taskRepository.save(task);
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -60,7 +68,6 @@ public class TaskService {
 
     @Transactional
     public GetTasksResponse getAllTasks() {
-
         List<Task> tasks = taskRepository.findAll();
         GetTasksResponse response = new GetTasksResponse();
         response.setTasks(new ArrayList<>());
@@ -102,12 +109,12 @@ public class TaskService {
         task.setSolver(currentUser);
         task.setStatus(TaskStatus.DONE);
         taskRepository.save(task);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Transactional
     public ResponseEntity<Void> deleteTask(long taskId) {
         taskRepository.delete(taskId);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

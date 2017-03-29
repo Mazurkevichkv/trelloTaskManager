@@ -23,4 +23,9 @@ public class FrontendController {
     public String getTest() {
         return "test.html";
     }
+
+    @RequestMapping(value = "/addfile")
+    public String getAddFile() {
+        return "addfile.html";
+    }
 }

@@ -54,7 +54,7 @@ public class MockCreator {
 
     public ProductOwner createProductOwner(Task task) {
         ProductOwner productOwner = new ProductOwner();
-        productOwner.setEmail("teamLead@gmail.com");
+        productOwner.setEmail("teamOwner@gmail.com");
         productOwner.setPassword("productOwner");
         productOwner.setBirthday("productOwner");
         productOwner.setFirstName("ZinoviyProductOwner");
