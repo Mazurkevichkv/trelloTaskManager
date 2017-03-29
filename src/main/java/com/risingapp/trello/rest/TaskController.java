@@ -2,6 +2,7 @@ package com.risingapp.trello.rest;
 
 import com.risingapp.trello.entity.UserRole;
 import com.risingapp.trello.model.request.AddTaskRequest;
+import com.risingapp.trello.model.response.GetTaskPrioritiesResponse;
 import com.risingapp.trello.model.response.GetTaskResponse;
 import com.risingapp.trello.model.response.GetTasksResponse;
 import com.risingapp.trello.service.TaskService;
@@ -59,5 +60,10 @@ public class TaskController {
     @RequestMapping(value = "/approved/{task_id}")
     public ResponseEntity<Void> approvedTask(@PathVariable("task_id") long task_id) {
         return taskService.approvedTask(task_id);
+    }
+
+    @RequestMapping(value = "/priorities")
+    public @ResponseBody GetTaskPrioritiesResponse getPriorities() {
+        return taskService.getTaskPriorities();
     }
 }

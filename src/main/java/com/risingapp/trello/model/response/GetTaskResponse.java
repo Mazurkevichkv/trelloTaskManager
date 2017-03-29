@@ -14,4 +14,5 @@ public class GetTaskResponse {
     private long creatorId;
     private long developerId;
     private TaskStatus status;
+    private String priority;
 }

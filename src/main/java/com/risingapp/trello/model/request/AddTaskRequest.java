@@ -9,5 +9,5 @@ import lombok.Data;
 public class AddTaskRequest {
 
     private String text;
-    private String creatorEmail;
+    private String priority;
 }

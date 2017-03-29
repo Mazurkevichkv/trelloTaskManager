@@ -1,10 +1,11 @@
 package com.risingapp.trello.service;
 
-import com.risingapp.trello.SpringSecurity;
 import com.risingapp.trello.entity.*;
 import com.risingapp.trello.model.request.AddTaskRequest;
+import com.risingapp.trello.model.response.GetTaskPrioritiesResponse;
 import com.risingapp.trello.model.response.GetTaskResponse;
 import com.risingapp.trello.model.response.GetTasksResponse;
+import com.risingapp.trello.repository.PrioritiesRepository;
 import com.risingapp.trello.repository.TaskRepository;
 import com.risingapp.trello.repository.UserRepository;
 import com.risingapp.trello.utils.FileProcessor;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,17 +29,23 @@ public class TaskService {
 
     @Autowired private TaskRepository taskRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private PrioritiesRepository prioritiesRepository;
     @Autowired private SessionService sessionService;
 
     Logger log = Logger.getLogger(TaskService.class);
 
     @Transactional
     public ResponseEntity<Void> addTask(AddTaskRequest request) {
-        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        ProductOwner productOwner = (ProductOwner) userRepository.findUserByEmail(currentUserEmail);
+        ProductOwner productOwner = (ProductOwner) sessionService.getCurrentUser();
+        TaskPriority priority = prioritiesRepository.findByPriority(request.getPriority());
+        if (priority == null) {
+            priority = new TaskPriority();
+            priority.setPriority(request.getPriority());
+        }
         Task task = new Task();
         task.setText(request.getText());
         task.setCreator(productOwner);
+        task.setPriority(priority);
         taskRepository.save(task);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -87,6 +93,8 @@ public class TaskService {
             response.setCreatorId(task.getCreator().getId());
         if (task.getDeveloper() != null)
             response.setDeveloperId(task.getDeveloper().getId());
+        if (task.getPriority() != null)
+            response.setPriority(task.getPriority().getPriority());
         return response;
     }
     @Transactional
@@ -116,5 +124,16 @@ public class TaskService {
     public ResponseEntity<Void> deleteTask(long taskId) {
         taskRepository.delete(taskId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Transactional
+    public GetTaskPrioritiesResponse getTaskPriorities() {
+        GetTaskPrioritiesResponse response = new GetTaskPrioritiesResponse();
+        response.setPriorities(new ArrayList<>());
+        List<TaskPriority> priorities = prioritiesRepository.findAll();
+        for (TaskPriority priority : priorities) {
+            response.getPriorities().add(priority.getPriority());
+        }
+        return response;
     }
 }
