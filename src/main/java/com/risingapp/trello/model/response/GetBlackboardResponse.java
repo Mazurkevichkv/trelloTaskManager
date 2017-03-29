@@ -12,6 +12,6 @@ import java.util.List;
 @Data
 public class GetBlackboardResponse {
 
-    private List<UserResponse> users;
+    private List<UserResponse> developers;
     private List<TaskResponse> queue;
 }

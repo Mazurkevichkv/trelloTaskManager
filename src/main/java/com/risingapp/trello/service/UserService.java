@@ -38,7 +38,7 @@ public class UserService {
     @Autowired private TaskRepository taskRepository;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    private static final String PHOTO_URL = "https://likeittrello.herokuapp.com/rest/user/photo/get";
+    private static final String PHOTO_URL = "https://likeittrello.herokuapp.com/rest/photo/";
 
     @Transactional
     public GetUserResponse getCurrentUser() {
@@ -50,11 +50,11 @@ public class UserService {
     public GetBlackboardResponse getBlackboard() {
         GetBlackboardResponse response = new GetBlackboardResponse();
         response.setQueue(new ArrayList<>());
-        response.setUsers(new ArrayList<>());
+        response.setDevelopers(new ArrayList<>());
         for (User user : userRepository.findAll()) {
             if (!(user instanceof Developer)) continue;
             UserResponse userResponse = convertDeveloper(user);
-            response.getUsers().add(userResponse);
+            response.getDevelopers().add(userResponse);
         }
         for (Task task : taskRepository.findAll()) {
             if (task.getDeveloper() != null) continue;
@@ -164,7 +164,7 @@ public class UserService {
         photo.setUser(currentUser);
         photo.setBase64(base64);
         photoRepository.save(photo);
-        photo.setLink(PHOTO_URL + "/" + currentUser.getId());
+        photo.setLink(PHOTO_URL + currentUser.getId());
         currentUser.setPhoto(photo);
         userRepository.save(currentUser);
         AddPhotoResponse response = new AddPhotoResponse();

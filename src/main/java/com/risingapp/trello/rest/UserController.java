@@ -48,7 +48,7 @@ public class UserController {
         return userService.getPhoto(response, id);
     }
 
-    @RequestMapping(value = "/current")
+    @RequestMapping(value = "/user/current")
     public @ResponseBody GetUserResponse getCurrentUser() {
         return userService.getCurrentUser();
     }
