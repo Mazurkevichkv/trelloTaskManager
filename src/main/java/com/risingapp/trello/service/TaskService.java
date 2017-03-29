@@ -1,8 +1,8 @@
 package com.risingapp.trello.service;
 
 import com.risingapp.trello.entity.*;
+import com.risingapp.trello.model.common.PriorityResponse;
 import com.risingapp.trello.model.request.AddTaskRequest;
-import com.risingapp.trello.model.response.GetPriorityResponse;
 import com.risingapp.trello.model.response.GetTaskPrioritiesResponse;
 import com.risingapp.trello.model.response.GetTaskResponse;
 import com.risingapp.trello.model.response.GetTasksResponse;
@@ -151,7 +151,7 @@ public class TaskService {
         response.setPriorities(new ArrayList<>());
         List<TaskPriority> priorities = prioritiesRepository.findAll();
         for (TaskPriority priority : priorities) {
-            response.getPriorities().add(new GetPriorityResponse(priority.getId(), priority.getPriority()));
+            response.getPriorities().add(new PriorityResponse(priority.getId(), priority.getPriority()));
         }
         return response;
     }

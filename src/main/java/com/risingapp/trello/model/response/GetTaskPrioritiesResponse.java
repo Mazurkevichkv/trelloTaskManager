@@ -1,5 +1,6 @@
 package com.risingapp.trello.model.response;
 
+import com.risingapp.trello.model.common.PriorityResponse;
 import lombok.Data;
 
 import java.util.List;
@@ -10,5 +11,5 @@ import java.util.List;
  */
 @Data
 public class GetTaskPrioritiesResponse {
-    private List<GetPriorityResponse> priorities;
+    private List<PriorityResponse> priorities;
 }
