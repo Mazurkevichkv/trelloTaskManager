@@ -17,5 +17,8 @@
   "homepage": "https://bitbucket.org/risingapp/trello#readme",
   "devDependencies": {
     "gulp": "github:gulpjs/gulp#4.0"
+  },
+  "engines": {
+    "node": "6.9.4"
   }
 }
