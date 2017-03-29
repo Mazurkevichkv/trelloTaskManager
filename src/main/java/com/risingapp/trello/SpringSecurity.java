@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableWebSecurity
 public class SpringSecurity extends WebSecurityConfigurerAdapter {
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private UserDetailsService userDetailsService;
 
