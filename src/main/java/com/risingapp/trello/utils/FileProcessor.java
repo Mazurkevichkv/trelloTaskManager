@@ -2,22 +2,22 @@ package com.risingapp.trello.utils;
 
 import com.risingapp.trello.entity.ProductOwner;
 import com.risingapp.trello.entity.Task;
+import com.risingapp.trello.entity.TaskPriority;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by oleg on 27.03.17.
  */
+@Component
 public class FileProcessor {
 
-    private static final int TASK_ARGUMENTS_SIZE = 2;
+    private static final int TASK_ARGUMENTS_SIZE = 3;
     private static final int TASK_TITLE_ID = 0;
     private static final int TASK_CONTENT_ID = 1;
     private static final int TASK_PRIORITY_ID = 2;
@@ -29,17 +29,13 @@ public class FileProcessor {
     private MultipartFile file;
     private boolean errors;
     private String message;
-    private List<Task> taskList;
-    private ProductOwner owner;
 
-    public FileProcessor(MultipartFile file, ProductOwner owner) {
+
+    public void setFile(MultipartFile file) {
         this.file = file;
-        this.taskList = new ArrayList<>();
-        this.owner = owner;
     }
 
-
-    public void process() {
+    public void process(RepositoryHelper repositoryHelper) {
         if (!validate()) {
             errors = true;
             message = "Invalid name";
@@ -55,10 +51,14 @@ public class FileProcessor {
                     log.warn("Invalid task: " + line);
                     continue;
                 }
+
                 Task task = new Task();
-                task.setCreator(owner);
                 task.setText(args[TASK_CONTENT_ID]);
-                taskList.add(task);
+                task.setTitle(args[TASK_TITLE_ID]);
+                task.setCreator(repositoryHelper.getProductOwner());
+                task.setPriority(repositoryHelper.getPriority(args[TASK_PRIORITY_ID]));
+                repositoryHelper.saveTask(task);
+
             }
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -68,9 +68,6 @@ public class FileProcessor {
         }
     }
 
-    public List<Task> getTaskList() {
-        return taskList;
-    }
 
     public boolean hasErrors() {
         return errors;
@@ -83,5 +80,12 @@ public class FileProcessor {
     public boolean validate() {
         return file.getOriginalFilename().matches(".+[.](tl|csv)");
 
+    }
+
+
+    public interface RepositoryHelper {
+        TaskPriority getPriority(String priority);
+        ProductOwner getProductOwner();
+        void saveTask(Task task);
     }
 }
