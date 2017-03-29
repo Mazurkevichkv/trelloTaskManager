@@ -84,8 +84,4 @@ public class FileProcessor {
         return file.getOriginalFilename().matches(".+[.](tl|csv)");
 
     }
-
-
-
-
 }

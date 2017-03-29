@@ -47,8 +47,8 @@ public class TaskService {
     //TODO
     @Transactional
     public ResponseEntity<Void> addTask(MultipartFile file) {
-        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        FileProcessor processor = new FileProcessor(file, (ProductOwner) userRepository.findUserByEmail(currentUserEmail));
+        ProductOwner productOwner = (ProductOwner) sessionService.getCurrentUser();
+        FileProcessor processor = new FileProcessor(file, productOwner);
         processor.process();
         if (!processor.hasErrors()) {
             for (Task task : processor.getTaskList()) {
