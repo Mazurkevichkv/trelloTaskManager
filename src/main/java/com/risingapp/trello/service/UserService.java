@@ -1,11 +1,15 @@
 package com.risingapp.trello.service;
 
 import com.risingapp.trello.entity.*;
+import com.risingapp.trello.model.common.TaskResponse;
+import com.risingapp.trello.model.common.UserResponse;
 import com.risingapp.trello.model.request.RegistrationUserRequest;
 import com.risingapp.trello.model.response.AddPhotoResponse;
+import com.risingapp.trello.model.response.GetBlackboardResponse;
 import com.risingapp.trello.model.response.GetUserResponse;
 import com.risingapp.trello.model.response.GetUsersResponse;
 import com.risingapp.trello.repository.PhotoRepository;
+import com.risingapp.trello.repository.TaskRepository;
 import com.risingapp.trello.repository.UserRepository;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +35,61 @@ public class UserService {
     @Autowired private UserRepository userRepository;
     @Autowired private SessionService sessionService;
     @Autowired private PhotoRepository photoRepository;
+    @Autowired private TaskRepository taskRepository;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private static final String PHOTO_URL = "https://likeittrello.herokuapp.com/rest/user/photo/get";
+
+    @Transactional
+    public GetUserResponse getCurrentUser() {
+        User currentUser = sessionService.getCurrentUser();
+        return convertUser(currentUser);
+    }
+
+    @Transactional
+    public GetBlackboardResponse getBlackboard() {
+        GetBlackboardResponse response = new GetBlackboardResponse();
+        response.setQueue(new ArrayList<>());
+        response.setUsers(new ArrayList<>());
+        for (User user : userRepository.findAll()) {
+            if (!(user instanceof Developer)) continue;
+            UserResponse userResponse = convertDeveloper(user);
+            response.getUsers().add(userResponse);
+        }
+        for (Task task : taskRepository.findAll()) {
+            if (task.getDeveloper() != null) continue;
+            response.getQueue().add(convertTask(task));
+        }
+        return response;
+    }
+
+    private UserResponse convertDeveloper(User user) {
+        Developer developer = (Developer) user;
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(developer.getId());
+        userResponse.setFirstName(developer.getFirstName());
+        userResponse.setLastName(developer.getLastName());
+        if (developer.getPhoto() != null)
+            userResponse.setPhotoUrl(developer.getPhoto().getLink());
+        userResponse.setTasks(new ArrayList<>());
+        if (developer.getTasks() != null) {
+            for (Task task : developer.getTasks()) {
+                userResponse.getTasks().add(convertTask(task));
+            }
+        }
+        return userResponse;
+    }
+
+    private TaskResponse convertTask(Task task) {
+
+        TaskResponse taskResponse = new TaskResponse();
+        taskResponse.setId(task.getId());
+        taskResponse.setTitle(task.getTitle());
+        taskResponse.setText(task.getText());
+        if (task.getPriority() != null)
+            taskResponse.setPriority(task.getPriority().getPriority());
+        return taskResponse;
+    }
 
     @Transactional
     public ResponseEntity<Void> registration(RegistrationUserRequest request) {
