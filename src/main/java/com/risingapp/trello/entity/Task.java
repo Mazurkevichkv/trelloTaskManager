@@ -28,6 +28,10 @@ public class Task {
     @JoinColumn(name = "solver_id")
     private User solver;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "priority_id")
+    private TaskPriority priority;
+
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.CREATED;
 }
