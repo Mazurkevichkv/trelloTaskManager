@@ -1,8 +1,0 @@
-mixin popup(data)
-    .popup.popup--isClosed&attributes(attributes)
-        .popup-overlay
-            .popup-window
-                button(type="button").popup-closeBtn
-                h3.popup-title!= data.title
-                .popup-content
-                    block

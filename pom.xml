@@ -18,7 +18,13 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>src/main/resources/public/</directory>
+                            <directory>src/main/resources/public</directory>
+                            <includes>
+                                <include>**/*.html</include>
+                                <include>**/*.js</include>
+                                <include>**/*.css</include>
+                                <include>**/*.map</include>
+                            </includes>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
                     </filesets>
