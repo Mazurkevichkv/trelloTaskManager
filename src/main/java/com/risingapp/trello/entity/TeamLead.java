@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
+@Table(name = "team_leads")
 public class TeamLead extends User {
 
     private Long productOwnerId;

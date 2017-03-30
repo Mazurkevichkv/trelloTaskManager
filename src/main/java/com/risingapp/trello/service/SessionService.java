@@ -6,11 +6,7 @@ import com.risingapp.trello.repository.ProductOwnerRepository;
 import com.risingapp.trello.repository.TeamLeadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zinoviyzubko on 27.03.17.
@@ -30,14 +26,13 @@ public class SessionService {
     }
 
     public User getUserByEmail(String email) {
-        List<User> users = new ArrayList<>();
-        users.addAll(developerRepository.findAll());
-        users.addAll(teamLeadRepository.findAll());
-        users.addAll(productOwnerRepository.findAll());
-        for (User user : users) {
-            if (email.equals(user.getEmail()))
-                return user;
+        User user = developerRepository.findByEmail(email);
+        if (user == null) {
+            user = teamLeadRepository.findByEmail(email);
+            if (user == null) {
+                user = productOwnerRepository.findByEmail(email);
+            }
         }
-        return null;
+        return user;
     }
 }
