@@ -69,6 +69,9 @@ public class MockCreator {
         developerRepository.save(developer1);
         developerRepository.save(developer2);
         developerRepository.save(developer3);
+
+        teamLeadRepository.save(teamLead1);
+        teamLeadRepository.save(teamLead2);
     }
 
 
