@@ -1,0 +1,16 @@
+.button {
+  height: 45px;
+  width: 160px;
+  border-radius: 3px;
+  border: none;
+  color: white;
+  transition: $fade-transition;
+  outline: none;
+  cursor: pointer;
+
+  background-color: $blue;
+
+  &:hover {
+    background-color: $dark-blue;
+  }
+}

@@ -4,4 +4,4 @@ target
 *.log
 .DS_Store
 node_modules/
-#src/main/resources/public/
+src/main/resources/public/

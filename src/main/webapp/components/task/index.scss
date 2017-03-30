@@ -1,0 +1,60 @@
+.task {
+  background-color: $light-base;
+  padding: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  width: 260px;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    .task-check {
+      opacity: 1;
+      transition: $fade-transition;
+    }
+  }
+
+  transition: $fade-transition;
+
+  &-title {
+    color: $light-black;
+    font-weight: 400;
+    font-size: 18px;
+    margin: 0 0 16px;
+  }
+  
+  &-description {
+    color: $grey;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 0;
+  }
+
+  &-check {
+    background-image: svg-load("assets/svg/checkmark.svg", fill=#ccc);
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 28px;
+    height: 28px;
+    display: block;
+    position: absolute;
+    top: 17px;
+    right: 13px;
+    opacity: 0;
+    transition: $fade-transition;
+    border-radius: 14px;
+    //border: 2px solid #ccc;
+    box-sizing: border-box;
+    cursor: pointer;
+    
+    &:hover {
+      background-image: svg-load("assets/svg/checkmark.svg", fill=$blue);
+      //border-color: $blue;
+    }
+  }
+
+  &:hover &-check {
+    opacity: 1;
+  }
+}
