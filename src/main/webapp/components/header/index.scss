@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: flex-start;
+  
+  &-branding {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  &-logo {
+    margin-right: 16px;
+  }
+  
+  &-title {
+    font-size: 32px;
+  }
+
+  &-addTask {
+    margin-left: 32px;
+  }
+}

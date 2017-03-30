@@ -1,0 +1,15 @@
+extends templates/main
+
+append scripts
+    script(src="scripts/index.js")
+    script.
+        App.IndexPage.run();
+
+block content
+    include components/board/index
+    include components/taskList/index
+    include components/task/index
+    
+    +board()
+        .board-queue
+        .board-main

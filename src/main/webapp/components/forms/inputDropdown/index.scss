@@ -1,0 +1,106 @@
+.inputDropdown {
+  position: relative;
+
+  &-wrapper {
+    display: block;
+    position: relative;
+  }
+
+  &-holder {
+    display: block;
+    position: relative;
+  }
+
+  &-fakeInput {
+    -webkit-appearance: none;
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px;
+    line-height: 20px;
+    padding: 10px 0;
+    outline: none;
+    font-size: 17px;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    border: none;
+    border-bottom: 1px solid #ccc;
+
+    transition: all .2s ease-out;
+    position: relative;
+    z-index: 10;
+    background: none;
+    display: block;
+    cursor: pointer;
+
+    &:focus {
+      border-color: #00bcd4;
+    }
+  }
+
+  &-label {
+  }
+
+
+  &-caption {
+    position: absolute;
+    left: 0;
+    line-height: 16px;
+    margin-top: -8px;
+    color: #ccc;
+    transition: all .2s ease-out;
+    top: -8px;
+    font-size: 14px;
+  }
+
+  &-validationAdvice {
+    color: #ee0000;
+    line-height: 20px;
+    padding-top: 5px;
+    display: inline-block;
+
+    &--hidden {
+    }
+  }
+
+  &-list {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 20;
+    top: 40px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 3px 8px rgba(#838383, 0.17);
+    max-height: 320px;
+    overflow-y: auto;
+  }
+
+  &--closed &-list {
+    display: none;
+  }
+
+  &-option {
+    list-style: none;
+    height: 40px;
+    line-height: 20px;
+    padding: 10px 10px;
+    font-size: 17px;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #fafafa;
+    }
+
+    &:hover {
+      background-color: rgba(#00bcd4, 0.2);
+    }
+
+    &--selected {
+      color: #00bcd4;
+    }
+  }
+}
