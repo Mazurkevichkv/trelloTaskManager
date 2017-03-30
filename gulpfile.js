@@ -75,7 +75,7 @@ gulp.task("build", gulp.series("clean", gulp.parallel("markup", "styles", "scrip
 gulp.task("default", gulp.series("build"));
 
 function taskPug() {
-    return gulp.src("./src/main/webapp/*.pug")
+    return gulp.src("./client/*.pug")
         //.pipe(plumber(config.plumber("Pug")))
         .pipe(pug({
             pretty: true
@@ -91,7 +91,7 @@ function taskPug() {
 }
 
 function taskHtml() {
-    return gulp.src(["./src/main/webapp/*.html"])
+    return gulp.src(["./client/*.html"])
         .pipe(plumber(config.plumber("HTML")))
         .pipe(htmltidy({
             dropEmptyElements: false,
@@ -104,7 +104,7 @@ function taskHtml() {
 }
 
 function taskSass() {
-    return gulp.src("./src/main/webapp/main.{sass,scss}")
+    return gulp.src("./client/main.{sass,scss}")
         //.pipe(plumber(config.plumber("Sass")))
         .pipe(sourcemaps.init())
         .pipe(sass({
@@ -130,7 +130,7 @@ function taskSass() {
 }
 
 function taskJs() {
-    return gulp.src("./src/main/webapp/scripts/*.js")
+    return gulp.src("./client/scripts/*.js")
         .pipe(plumber(config.plumber("JS")))
         .pipe(named())
         .pipe(webpack({
@@ -154,7 +154,7 @@ function taskJs() {
 }
 
 function taskImages() {
-    return gulp.src("./src/main/webapp/assets/images/*.{jpg,jpeg,png,svg}", {since: gulp.lastRun("assets")})
+    return gulp.src("./client/assets/images/*.{jpg,jpeg,png,svg}", {since: gulp.lastRun("assets")})
         .pipe(plumber(config.plumber("Images")))
         //.pipe(newer("./src/main/resources/public/assets/images/"))
         .pipe(imagemin({
@@ -169,7 +169,7 @@ function taskImages() {
 }
 
 function taskFonts() {
-    return gulp.src("./src/main/webapp/assets/fonts/*/*.{woff,woff2}", {since: gulp.lastRun("assets")})
+    return gulp.src("./client/assets/fonts/*/*.{woff,woff2}", {since: gulp.lastRun("assets")})
         .pipe(plumber(config.plumber("Fonts")))
         .pipe(rename(function(item) {
             item.dirname = item.dirname.split(path.sep).pop();
@@ -198,17 +198,17 @@ function taskServe() {
 function taskWatch() {
     /* MARKUP */
 
-    gulp.watch("./src/main/webapp/**/*.pug", taskPug);
+    gulp.watch("./client/**/*.pug", taskPug);
 
     /* STYLES */
-    gulp.watch("./src/main/webapp/**/*.{sass,scss}", taskSass);
+    gulp.watch("./client/**/*.{sass,scss}", taskSass);
 
     /* SCRIPTS */
-    //gulp.watch("./src/main/webapp/scripts/**/*.js", taskJs);
+    //gulp.watch("./client/scripts/**/*.js", taskJs);
     //There is no need to do this because of webpack watcher
     
     
     /* ASSETS */
-    gulp.watch("./src/main/webapp/assets/images/*.{jpg,jpeg,png}", taskImages);
-    gulp.watch("./src/main/webapp/assets/fonts/*/*.{woff,woff2}", taskFonts);
+    gulp.watch("./client/assets/images/*.{jpg,jpeg,png}", taskImages);
+    gulp.watch("./client/assets/fonts/*/*.{woff,woff2}", taskFonts);
 }
