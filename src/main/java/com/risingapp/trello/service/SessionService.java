@@ -9,6 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by zinoviyzubko on 27.03.17.
  */
@@ -22,15 +25,19 @@ public class SessionService {
     public User getCurrentUser() {
 
         org.springframework.security.core.userdetails.User sessionUser = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = developerRepository.findByEmail(sessionUser.getUsername());
-        if (user == null) {
-            user = productOwnerRepository.findByEmail(sessionUser.getUsername());
-            if (user == null) {
-                user = teamLeadRepository.findByEmail(sessionUser.getUsername());
-                if (user == null)
-                    throw new UsernameNotFoundException("User not found");
-            }
-        }
+        User user = getUserByEmail(sessionUser.getUsername());
         return user;
+    }
+
+    public User getUserByEmail(String email) {
+        List<User> users = new ArrayList<>();
+        users.addAll(developerRepository.findAll());
+        users.addAll(teamLeadRepository.findAll());
+        users.addAll(productOwnerRepository.findAll());
+        for (User user : users) {
+            if (email.equals(user.getEmail()))
+                return user;
+        }
+        return null;
     }
 }

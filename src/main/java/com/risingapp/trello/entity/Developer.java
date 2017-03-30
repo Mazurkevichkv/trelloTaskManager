@@ -13,7 +13,6 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "developers")
 public class Developer extends User {
 
     @Column

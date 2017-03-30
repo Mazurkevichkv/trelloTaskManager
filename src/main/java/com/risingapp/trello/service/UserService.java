@@ -190,17 +190,6 @@ public class UserService {
         return response;
     }
 
-    public User getUserByEmail(String email) {
-        User user = developerRepository.findByEmail(email);
-        if (user == null) {
-            user = productOwnerRepository.findByEmail(email);
-            if (user == null) {
-                user = teamLeadRepository.findByEmail(email);
-            }
-        }
-        return user;
-    }
-
     @Transactional
     public AddPhotoResponse addPhoto(MultipartFile file) throws IOException {
 
