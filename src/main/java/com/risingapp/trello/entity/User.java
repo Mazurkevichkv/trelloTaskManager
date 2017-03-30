@@ -24,5 +24,6 @@ public class User {
     protected String vkToken;
 
     protected Long photoId;
+    @Enumerated(EnumType.STRING)
     protected UserRole userRole;
 }
