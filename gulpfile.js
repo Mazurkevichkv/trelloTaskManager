@@ -142,7 +142,13 @@ function taskJs() {
                     {
                         test: /\.js$/,
                         exclude: /(node_modules|bower_components)/,
-                        loader: 'babel-loader'
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ["es2015"],
+                                plugins: ["transform-runtime"]
+                            }
+                        }
                     }
                 ]
             },
