@@ -23,7 +23,7 @@ public class MockCreator {
 
     @PostConstruct
     private void init() {
-        getProductOwners(1);
+        getProductOwners(2);
     }
 
 
