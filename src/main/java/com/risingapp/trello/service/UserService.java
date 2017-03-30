@@ -111,10 +111,6 @@ public class UserService {
         user.setBirthday(request.getBirthday());
         user.setRegistrationDay(sdf.format(new Date()));
         switch (request.getRole()) {
-            case DEVELOPER :
-                Developer developer = (Developer) user;
-                developerRepository.save(developer);
-                break;
             case PRODUCT_OWNER :
                 ProductOwner productOwner = (ProductOwner) user;
                 productOwnerRepository.save(productOwner);
@@ -122,6 +118,9 @@ public class UserService {
             case TEAM_LEAD :
                 TeamLead teamLead = (TeamLead) user;
                 teamLeadRepository.save(teamLead);
+            default:
+                Developer developer = (Developer) user;
+                developerRepository.save(developer);
                 break;
         }
         return new ResponseEntity<Void>(HttpStatus.OK);
