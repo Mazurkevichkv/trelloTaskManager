@@ -1,0 +1,100 @@
+// SETTINGS: Global variables, config switches, brand colours, etc. \\
+
+// COLORS
+$blue: #00B7CF;
+$dark-blue: #008ca9;
+$light-grey: #e0e0e0;
+$base-grey: #f3f3f3;
+$grey: #b9b9b9;
+$light-black: #434343;
+$light-base: #fafafa;
+
+//TRANSITIONS
+$fade-transition: all .3s ease;
+
+// TOOLS: Default mixins and functions. \\
+
+//noinspection CssUnknownTarget
+@import "include-media/dist/_include-media.scss";
+
+$tiny: 320px;
+$iphone5: 320px;
+$iphone6: 375px;
+$iphone6p: 414px;
+$small: 480px;
+$medium: 760px;
+$ipad: 768px;
+$large: 1024px;
+$huge: 1200px;
+$vast: 1600px;
+
+$breakpoints: (tiny: $tiny, small: $small, iphone6: $iphone6, iphone6p: $iphone6p, medium: $medium, ipad: $ipad, large: $large, huge: $huge, vast: $vast);
+
+@mixin visually-hidden() {
+  /*https://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html*/
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+
+  body:hover & a,
+  body:hover & input,
+  body:hover & button {
+    display: none !important;
+  }
+}
+
+@mixin clearfix() {
+  &::before,
+  &::after {
+    content: "";
+    display: table;
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+// THEMES: Default fonts, colors e.g. \\
+
+// GENERIC: Ground-zero styles (Normalize.css, resets, box-sizing). \\
+
+@import "normalize-scss/sass/_normalize.scss";
+@include normalize();
+
+\:root {
+  
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+// COMPONENTS: Designed components, chunks of UI. \\
+
+@import "components/board/index";
+@import "components/button/index";
+@import "components/forms/form/index";
+@import "components/page/index";
+@import "components/popup/index";
+@import "components/task/index";
+@import "components/taskList/index";
+@import "components/header/index";
+
+@import "components/forms/form/index";
+@import "components/forms/input/index";
+@import "components/forms/buttonDefault/index";
+@import "components/forms/inputDropdown/index";
+@import "components/forms/inputText/index";
+@import "components/forms/inputTextarea/index";
+@import "components/forms/inputSubmit/index";
+
+@import "components/welcome/index";

@@ -1,0 +1,44 @@
+extends templates/logo-only
+
+append scripts
+    script(src="scripts/welcome.js")
+    script.
+        App.WelcomePage.run();
+
+block content
+    include components/welcome/index
+    include components/forms/form/index
+    include components/forms/inputText/index
+    include components/forms/inputSubmit/index
+        
+    +welcome()
+        +form({
+            action: "/login_check",
+            method: "POST"
+        }).form--signIn
+            h2 Sign in, please
+            .form-row
+                +inputText({
+                    title: "Email:",
+                    type: "email",
+                    required: true
+                })
+                
+            .form-row
+                +inputText({
+                    title: "Password:", 
+                    type: "password",
+                    required: true
+                })
+                
+            .form-row
+                .form-group
+                    .form-groupItem
+                        a(href="/register.html").welcome-registerLink Register
+                    .form-groupItem.form-groupItem--rightAligned
+                        +inputSubmit({
+                            title: "Sign in"
+                        })
+                    
+                        
+                
