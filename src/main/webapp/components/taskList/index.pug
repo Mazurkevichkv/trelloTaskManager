@@ -1,0 +1,5 @@
+mixin taskList(data)
+    .taskList(ondrop="drop(event)" id=data.id)
+        h2.taskList-title!= data.title
+        .taskList-queue
+            block
