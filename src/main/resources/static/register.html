@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"><!-- Place favicon.ico in the root directory-->
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <!-- Application content here-->
+  <div class="page">
+    <div class="page-header">
+      <div class="header">
+        <div class="header-branding">
+          <div class="header-logo">
+            <div class="logo">
+              <svg width="48px" height="48px" viewbox="60 60 200 200" version="1.1">
+              <rect x="128" y="192" rx="8" ry="8" width="128" height="64" fill="#205080" transform="skewY(-26.56505117707799)"></rect>
+              <rect x="64" y="224" rx="8" ry="8" width="128" height="64" fill="#00bcd4" transform="skewY(-26.56505117707799)"></rect></svg>
+            </div>
+          </div>
+          <div class="header-title">
+            Rising App
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="welcome">
+        <div class="welcome-aligner">
+          <form class="form form--registration" action="/registration" method="post">
+            <h2>Registration</h2>
+            <div class="form-row">
+              <div class="input input--empty inputText">
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" name="firstName" type="text" required=""><span class="input-label"><span class="input-caption">First name:</span></span></span><span class="input-advice"></span></label>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="input input--empty inputText">
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" name="lastName" type="text" required=""><span class="input-label"><span class="input-caption">Last name:</span></span></span><span class="input-advice"></span></label>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="input input--empty inputText">
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" name="email" type="email" required=""><span class="input-label"><span class="input-caption">Email:</span></span></span><span class="input-advice"></span></label>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="input input--empty inputText">
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" name="password" type="password" required=""><span class="input-label"><span class="input-caption">Password:</span></span></span><span class="input-advice"></span></label>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="input input--empty inputText">
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" type="password" required=""><span class="input-label"><span class="input-caption">Repeat password:</span></span></span><span class="input-advice"></span></label>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <div class="form-groupItem">
+                  Have account? <a class="welcome-registerLink" href="/login">Sign in!</a>
+                </div>
+                <div class="form-groupItem form-groupItem--rightAligned">
+                  <div class="inputSubmit">
+                    <button class="buttonDefault inputSubmit-el" type="submit"><span class="button-caption inputSubmit-caption">Register</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/register.js">
+  </script> 
+  <script>
+    App.RegisterPage.run();
+    
+  </script>
+</body>
+</html>
