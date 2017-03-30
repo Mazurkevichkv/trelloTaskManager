@@ -183,16 +183,16 @@ public class MockCreator {
         productOwner.getCreatedTaskIds().add(task2.getId());
 
         task3 = new Task();
-        task3.setTitle("Task title №1" );
-        task3.setText("Task text №1");
+        task3.setTitle("Task title №3" );
+        task3.setText("Task text №3");
         task3.setCreatorId(productOwner.getId());
         task3.setPriorityId(priority3.getId());
         taskRepository.save(task3);
         productOwner.getCreatedTaskIds().add(task3.getId());
 
         task4 = new Task();
-        task4.setTitle("Task title №1" );
-        task4.setText("Task text №1");
+        task4.setTitle("Task title №4" );
+        task4.setText("Task text №4");
         task4.setCreatorId(productOwner.getId());
         task4.setPriorityId(priority1.getId());
         taskRepository.save(task4);
