@@ -18,7 +18,7 @@ public class TeamLead extends User {
 
     private Long productOwnerId;
     @Column
-    @ElementCollection(targetClass=Integer.class)
+    @ElementCollection(targetClass=Long.class)
     private List<Long> developerIds;
 
     public TeamLead(){
