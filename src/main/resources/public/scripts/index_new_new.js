@@ -2314,10 +2314,6 @@ var App =
 	
 	            var request = new _Request.Request("/rest/blackboard", "GET");
 	
-	            var auth = new _Request.Request("/login_check", "POST");
-	
-	            console.log(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''));
-	
 	            request.send().then(function (response) {
 	                _this.queue = response.queue;
 	                _this.tasksLists = response.developers;

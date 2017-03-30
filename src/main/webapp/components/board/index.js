@@ -27,10 +27,6 @@ class Board {
     loadElements() {
         const request = new Request("/rest/blackboard", "GET");
         
-        const auth = new Request("/login_check", "POST");
-        
-        console.log(location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: ''));
-        
         request.send()
             .then((response) => {
                  this.queue = response.queue;
