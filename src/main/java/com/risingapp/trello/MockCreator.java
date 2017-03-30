@@ -9,11 +9,10 @@ import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by zinoviyzubko on 27.03.17.
- */
+ * */
 @Component
 public class MockCreator {
 
