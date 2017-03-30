@@ -45,11 +45,129 @@ var App =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(121);
+	module.exports = __webpack_require__(1);
 
 
 /***/ },
-/* 1 */,
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.IndexPage = undefined;
+	
+	var _getPrototypeOf = __webpack_require__(2);
+	
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+	
+	var _possibleConstructorReturn2 = __webpack_require__(28);
+	
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+	
+	var _inherits2 = __webpack_require__(75);
+	
+	var _inherits3 = _interopRequireDefault(_inherits2);
+	
+	var _classCallCheck2 = __webpack_require__(83);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(84);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _index = __webpack_require__(88);
+	
+	var _index2 = __webpack_require__(93);
+	
+	var _index3 = __webpack_require__(98);
+	
+	var _Request = __webpack_require__(99);
+	
+	var _Permission = __webpack_require__(119);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var IndexPage = function () {
+	    function IndexPage() {
+	        (0, _classCallCheck3.default)(this, IndexPage);
+	
+	        this.permissionsMap = new _Permission.Permission();
+	
+	        this.addTaskPopup = new _index.Popup(document.querySelector(".popup--addTask"));
+	        this.addTaskBtn = document.querySelector(".button--addTask");
+	
+	        this.addTaskForm = new FormAddTask();
+	
+	        this.addTaskBtn.addEventListener("click", this.addTaskBtnClickHandler.bind(this));
+	
+	        this.board = new _index3.Board(document.querySelector(".board"));
+	    }
+	
+	    (0, _createClass3.default)(IndexPage, [{
+	        key: "addTaskBtnClickHandler",
+	        value: function addTaskBtnClickHandler() {
+	            console.log("hello");
+	            this.addTaskPopup.open();
+	        }
+	    }], [{
+	        key: "run",
+	        value: function run() {
+	            IndexPage.instance = new IndexPage();
+	        }
+	    }, {
+	        key: "getInstance",
+	        value: function getInstance() {
+	            return IndexPage.instance;
+	        }
+	    }]);
+	    return IndexPage;
+	}();
+	
+	var FormAddTask = function (_Form) {
+	    (0, _inherits3.default)(FormAddTask, _Form);
+	
+	    function FormAddTask(options) {
+	        (0, _classCallCheck3.default)(this, FormAddTask);
+	
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (FormAddTask.__proto__ || (0, _getPrototypeOf2.default)(FormAddTask)).call(this, document.querySelector(".form--addTask"), options));
+	
+	        _this.request = new _Request.Request("/rest/task/add", "GET");
+	        return _this;
+	    }
+	
+	    (0, _createClass3.default)(FormAddTask, [{
+	        key: "getData",
+	        value: function getData() {
+	            var data = {};
+	            this.inputs.forEach(function (item) {
+	                return data[item.getName()] = item.getValue();
+	            });
+	            return data;
+	        }
+	    }, {
+	        key: "submitHandler",
+	        value: function submitHandler(e) {
+	            e.preventDefault();
+	
+	            this.request.send(this.getData()).then(function (response) {
+	                console.log(response);
+	            }).catch(function (error) {
+	                console.log("Error: " + error);
+	            });
+	
+	            console.log("FormAddTask submitting!");
+	        }
+	    }]);
+	    return FormAddTask;
+	}(_index2.Form);
+	
+	exports.IndexPage = IndexPage;
+
+/***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1580,11 +1698,189 @@ var App =
 	$export($export.S + $export.F * !__webpack_require__(23), 'Object', {defineProperty: __webpack_require__(19).f});
 
 /***/ },
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Popup = undefined;
+	
+	var _assign = __webpack_require__(89);
+	
+	var _assign2 = _interopRequireDefault(_assign);
+	
+	var _classCallCheck2 = __webpack_require__(83);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(84);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Popup = function () {
+	    function Popup(context, options) {
+	        (0, _classCallCheck3.default)(this, Popup);
+	
+	        this.context = context;
+	        this.options = (0, _assign2.default)(Popup.defaults, options);
+	
+	        this.elements = {};
+	
+	        this.elements.root = this.context;
+	
+	        if (!this.context.classList.contains(Popup.classes.root)) {
+	            this.elements.root = this.context.querySelector("." + Popup.classes.root);
+	        }
+	
+	        if (!this.elements.root) {
+	            throw new Error("Context " + this.context + " has no ." + Popup.classes.root + " element");
+	        }
+	
+	        this.initElements();
+	        this.initHandlers();
+	    }
+	
+	    (0, _createClass3.default)(Popup, [{
+	        key: "initElements",
+	        value: function initElements() {
+	            for (var item in Popup.classes) {
+	                if (!Popup.classes.hasOwnProperty(item)) continue;
+	
+	                if (item === "root") continue; // root element is already initialized
+	
+	                this.elements[item] = this.elements.root.querySelector("." + Popup.classes[item]);
+	                if (!this.elements[item]) {
+	                    console.log(item + " is not found.");
+	                }
+	            }
+	        }
+	    }, {
+	        key: "initHandlers",
+	        value: function initHandlers() {
+	            this.elements.closeBtn.addEventListener("click", this.closeBtnClickHandler.bind(this));
+	        }
+	    }, {
+	        key: "open",
+	        value: function open() {
+	            this.onBeforeOpen();
+	
+	            this.elements.root.classList.remove(Popup.classes.root + Popup.modifiers.root.isClosed);
+	
+	            this.onAfterOpen();
+	        }
+	    }, {
+	        key: "close",
+	        value: function close() {
+	            this.onBeforeClose();
+	
+	            this.elements.root.classList.add(Popup.classes.root + Popup.modifiers.root.isClosed);
+	
+	            this.onAfterClose();
+	        }
+	    }, {
+	        key: "closeBtnClickHandler",
+	        value: function closeBtnClickHandler(e) {
+	            e.preventDefault();
+	            this.close();
+	        }
+	    }, {
+	        key: "onBeforeClose",
+	        value: function onBeforeClose() {}
+	    }, {
+	        key: "onAfterClose",
+	        value: function onAfterClose() {}
+	    }, {
+	        key: "onBeforeOpen",
+	        value: function onBeforeOpen() {}
+	    }, {
+	        key: "onAfterOpen",
+	        value: function onAfterOpen() {}
+	    }]);
+	    return Popup;
+	}();
+	
+	Popup.classes = {
+	    root: "popup",
+	    window: "popup-window",
+	    closeBtn: "popup-closeBtn"
+	};
+	
+	Popup.modifiers = {
+	    root: {
+	        isClosed: "--isClosed"
+	    }
+	};
+	
+	Popup.defaults = {};
+	
+	exports.Popup = Popup;
+
+/***/ },
+/* 89 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(90), __esModule: true };
+
+/***/ },
+/* 90 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(91);
+	module.exports = __webpack_require__(15).Object.assign;
+
+/***/ },
+/* 91 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.3.1 Object.assign(target, source)
+	var $export = __webpack_require__(14);
+	
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(92)});
+
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// 19.1.2.1 Object.assign(target, source, ...)
+	var getKeys  = __webpack_require__(42)
+	  , gOPS     = __webpack_require__(66)
+	  , pIE      = __webpack_require__(67)
+	  , toObject = __webpack_require__(5)
+	  , IObject  = __webpack_require__(45)
+	  , $assign  = Object.assign;
+	
+	// should work with symbols and should have deterministic property order (V8 bug)
+	module.exports = !$assign || __webpack_require__(24)(function(){
+	  var A = {}
+	    , B = {}
+	    , S = Symbol()
+	    , K = 'abcdefghijklmnopqrst';
+	  A[S] = 7;
+	  K.split('').forEach(function(k){ B[k] = k; });
+	  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+	}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+	  var T     = toObject(target)
+	    , aLen  = arguments.length
+	    , index = 1
+	    , getSymbols = gOPS.f
+	    , isEnum     = pIE.f;
+	  while(aLen > index){
+	    var S      = IObject(arguments[index++])
+	      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
+	      , length = keys.length
+	      , j      = 0
+	      , key;
+	    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+	  } return T;
+	} : $assign;
+
+/***/ },
 /* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1965,30 +2261,7 @@ var App =
 	exports.InputTextarea = InputTextarea;
 
 /***/ },
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1996,19 +2269,11 @@ var App =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.WelcomePage = undefined;
+	exports.Board = undefined;
 	
-	var _getPrototypeOf = __webpack_require__(2);
+	var _assign = __webpack_require__(89);
 	
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-	
-	var _possibleConstructorReturn2 = __webpack_require__(28);
-	
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-	
-	var _inherits2 = __webpack_require__(75);
-	
-	var _inherits3 = _interopRequireDefault(_inherits2);
+	var _assign2 = _interopRequireDefault(_assign);
 	
 	var _classCallCheck2 = __webpack_require__(83);
 	
@@ -2018,50 +2283,1362 @@ var App =
 	
 	var _createClass3 = _interopRequireDefault(_createClass2);
 	
-	var _index = __webpack_require__(93);
+	var _Request = __webpack_require__(99);
+	
+	var _mock = __webpack_require__(116);
+	
+	var _index = __webpack_require__(117);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var WelcomePage = function () {
-	    function WelcomePage() {
-	        (0, _classCallCheck3.default)(this, WelcomePage);
+	var Board = function () {
+	    function Board(context, options) {
+	        (0, _classCallCheck3.default)(this, Board);
 	
-	        this.signInForm = new SignInForm();
+	        this.context = context;
+	        this.options = (0, _assign2.default)({}, Board.defaults, options);
+	
+	        this.elements = {};
+	        this.elements.root = this.context;
+	
+	        this.board = {};
+	        this.board.main = this.elements.root.querySelector("." + Board.classes.main);
+	        this.board.queue = this.elements.root.querySelector("." + Board.classes.queue);
+	        this.loadElements();
 	    }
 	
-	    (0, _createClass3.default)(WelcomePage, null, [{
+	    (0, _createClass3.default)(Board, [{
+	        key: "loadElements",
+	        value: function loadElements() {
+	            var _this = this;
+	
+	            var request = new _Request.Request("/rest/blackboard", "GET");
+	
+	            request.send().then(function (response) {
+	                _this.queue = response.queue;
+	                _this.tasksLists = response.developers;
+	                _this.initQueue();
+	                _this.initElements();
+	            }).catch(function (error) {
+	                console.log("Error: " + error);
+	            });
+	        }
+	    }, {
+	        key: "initElements",
+	        value: function initElements() {
+	            var index = 1;
+	            for (var item in this.tasksLists) {
+	                if (!this.tasksLists.hasOwnProperty(item)) continue;
+	
+	                this.board.main.appendChild(Board.createBoardList(index));
+	                this.elements[item] = new _index.TaskList(document.querySelector("#" + Board.classes.list + index), {
+	                    tasks: this.tasksLists[item].tasks,
+	                    firstName: this.tasksLists[item].firstName,
+	                    index: index++
+	                });
+	            }
+	        }
+	    }, {
+	        key: "initQueue",
+	        value: function initQueue() {
+	            this.elements[0] = new _index.TaskList(this.board.queue, {
+	                tasks: this.queue,
+	                firstName: 'Queue', index: 0
+	            });
+	        }
+	    }, {
+	        key: "initUserTasks",
+	        value: function initUserTasks() {
+	            for (var item in this.queue) {
+	                if (!this.queue.hasOwnProperty(item)) continue;
+	
+	                var div = document.createElement('div');
+	                div.className = 'board-list';
+	                this.board.main.appendChild(div);
+	                this.elements[item] = new _index.TaskList(div);
+	            }
+	        }
+	    }, {
+	        key: "initHandlers",
+	        value: function initHandlers() {
+	            //this.elements.closeBtn.addEventListener("click", this.closeBtnClickHandler.bind(this));
+	        }
+	    }], [{
+	        key: "createBoardList",
+	        value: function createBoardList(index) {
+	            var div = document.createElement('div');
+	            var id = "" + Board.classes.list + index;
+	            div.setAttribute('id', id);
+	            div.className = Board.classes.list;
+	            return div;
+	        }
+	    }]);
+	    return Board;
+	}();
+	
+	Board.defaults = {};
+	
+	Board.classes = {
+	    root: 'board',
+	    main: 'board-main',
+	    queue: 'board-queue',
+	    list: 'board-list'
+	};
+	
+	exports.Board = Board;
+
+/***/ },
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Request = undefined;
+	
+	var _promise = __webpack_require__(100);
+	
+	var _promise2 = _interopRequireDefault(_promise);
+	
+	var _classCallCheck2 = __webpack_require__(83);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(84);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Request = function () {
+	    function Request(url, method, headers) {
+	        (0, _classCallCheck3.default)(this, Request);
+	
+	        this.method = method || "GET";
+	        this.url = url || window.location.href;
+	        this.headers = headers || {};
+	    }
+	
+	    (0, _createClass3.default)(Request, [{
+	        key: "send",
+	        value: function send(data) {
+	            var _this = this;
+	
+	            return new _promise2.default(function (resolve, reject) {
+	                var xhr = void 0,
+	                    tid = void 0;
+	                data = data || {};
+	
+	                try {
+	                    xhr = Request.makeXhr();
+	                } catch (e) {
+	                    reject(Request.ENOXHR);
+	                }
+	
+	                var payload = Request.encode(data);
+	                var url = _this.url;
+	
+	                if (_this.method === "GET" && payload) {
+	                    url += '?' + payload;
+	                    payload = null;
+	                }
+	
+	                xhr.open(_this.method, url);
+	
+	                var contentType = "application/x-www-form-urlencoded";
+	
+	                for (var item in _this.headers) {
+	                    if (!_this.headers.hasOwnProperty(item)) continue;
+	
+	                    if (item.toLowerCase() === "content-type") {
+	                        contentType = _this.headers[item];
+	                    }
+	
+	                    xhr.setRequestHeader(item, _this.headers[item]);
+	                }
+	
+	                if (Request.timeout) {
+	                    var _tid = setTimeout(function () {
+	                        xhr.abort();
+	                        reject(Request.ETIMEOUT, xhr);
+	                    }, Request.timeout);
+	                }
+	
+	                xhr.onreadystatechange = function () {
+	
+	                    if (Request.timeout) {
+	                        clearTimeout(tid);
+	                    }
+	
+	                    if (xhr.readyState === 4) {
+	                        if (!xhr.status || (xhr.status < 200 || xhr.status >= 300) && xhr.status !== 304) {
+	                            reject(xhr.responseText, xhr);
+	                        }
+	
+	                        resolve(xhr.responseText, xhr);
+	                    }
+	                };
+	
+	                xhr.send(payload);
+	            });
+	        }
+	    }], [{
+	        key: "encode",
+	        value: function encode(data) {
+	            if (typeof data === "string") {
+	                return data;
+	            }
+	
+	            var params = [];
+	
+	            for (var key in data) {
+	                if (!data.hasOwnProperty(key)) continue;
+	
+	                params.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+	            }
+	
+	            return params.join('&');
+	        }
+	    }, {
+	        key: "makeXhr",
+	        value: function makeXhr() {
+	            var xhr = void 0;
+	            if (window.XMLHttpRequest) {
+	                xhr = new XMLHttpRequest();
+	            } else if (window.ActiveXObject) {
+	                try {
+	                    xhr = new ActiveXObject("Msxml2.XMLHTTP");
+	                } catch (e) {
+	                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+	                }
+	            }
+	            return xhr;
+	        }
+	    }]);
+	    return Request;
+	}();
+	
+	Request.ENOXHR = 1;
+	Request.ETIMEOUT = 2;
+	Request.timeout = 0;
+	
+	exports.Request = Request;
+
+/***/ },
+/* 100 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(101), __esModule: true };
+
+/***/ },
+/* 101 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(72);
+	__webpack_require__(32);
+	__webpack_require__(54);
+	__webpack_require__(102);
+	module.exports = __webpack_require__(15).Promise;
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var LIBRARY            = __webpack_require__(36)
+	  , global             = __webpack_require__(11)
+	  , ctx                = __webpack_require__(16)
+	  , classof            = __webpack_require__(103)
+	  , $export            = __webpack_require__(14)
+	  , isObject           = __webpack_require__(21)
+	  , aFunction          = __webpack_require__(17)
+	  , anInstance         = __webpack_require__(104)
+	  , forOf              = __webpack_require__(105)
+	  , speciesConstructor = __webpack_require__(109)
+	  , task               = __webpack_require__(110).set
+	  , microtask          = __webpack_require__(112)()
+	  , PROMISE            = 'Promise'
+	  , TypeError          = global.TypeError
+	  , process            = global.process
+	  , $Promise           = global[PROMISE]
+	  , process            = global.process
+	  , isNode             = classof(process) == 'process'
+	  , empty              = function(){ /* empty */ }
+	  , Internal, GenericPromiseCapability, Wrapper;
+	
+	var USE_NATIVE = !!function(){
+	  try {
+	    // correct subclassing with @@species support
+	    var promise     = $Promise.resolve(1)
+	      , FakePromise = (promise.constructor = {})[__webpack_require__(53)('species')] = function(exec){ exec(empty, empty); };
+	    // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
+	    return (isNode || typeof PromiseRejectionEvent == 'function') && promise.then(empty) instanceof FakePromise;
+	  } catch(e){ /* empty */ }
+	}();
+	
+	// helpers
+	var sameConstructor = function(a, b){
+	  // with library wrapper special case
+	  return a === b || a === $Promise && b === Wrapper;
+	};
+	var isThenable = function(it){
+	  var then;
+	  return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
+	};
+	var newPromiseCapability = function(C){
+	  return sameConstructor($Promise, C)
+	    ? new PromiseCapability(C)
+	    : new GenericPromiseCapability(C);
+	};
+	var PromiseCapability = GenericPromiseCapability = function(C){
+	  var resolve, reject;
+	  this.promise = new C(function($$resolve, $$reject){
+	    if(resolve !== undefined || reject !== undefined)throw TypeError('Bad Promise constructor');
+	    resolve = $$resolve;
+	    reject  = $$reject;
+	  });
+	  this.resolve = aFunction(resolve);
+	  this.reject  = aFunction(reject);
+	};
+	var perform = function(exec){
+	  try {
+	    exec();
+	  } catch(e){
+	    return {error: e};
+	  }
+	};
+	var notify = function(promise, isReject){
+	  if(promise._n)return;
+	  promise._n = true;
+	  var chain = promise._c;
+	  microtask(function(){
+	    var value = promise._v
+	      , ok    = promise._s == 1
+	      , i     = 0;
+	    var run = function(reaction){
+	      var handler = ok ? reaction.ok : reaction.fail
+	        , resolve = reaction.resolve
+	        , reject  = reaction.reject
+	        , domain  = reaction.domain
+	        , result, then;
+	      try {
+	        if(handler){
+	          if(!ok){
+	            if(promise._h == 2)onHandleUnhandled(promise);
+	            promise._h = 1;
+	          }
+	          if(handler === true)result = value;
+	          else {
+	            if(domain)domain.enter();
+	            result = handler(value);
+	            if(domain)domain.exit();
+	          }
+	          if(result === reaction.promise){
+	            reject(TypeError('Promise-chain cycle'));
+	          } else if(then = isThenable(result)){
+	            then.call(result, resolve, reject);
+	          } else resolve(result);
+	        } else reject(value);
+	      } catch(e){
+	        reject(e);
+	      }
+	    };
+	    while(chain.length > i)run(chain[i++]); // variable length - can't use forEach
+	    promise._c = [];
+	    promise._n = false;
+	    if(isReject && !promise._h)onUnhandled(promise);
+	  });
+	};
+	var onUnhandled = function(promise){
+	  task.call(global, function(){
+	    var value = promise._v
+	      , abrupt, handler, console;
+	    if(isUnhandled(promise)){
+	      abrupt = perform(function(){
+	        if(isNode){
+	          process.emit('unhandledRejection', value, promise);
+	        } else if(handler = global.onunhandledrejection){
+	          handler({promise: promise, reason: value});
+	        } else if((console = global.console) && console.error){
+	          console.error('Unhandled promise rejection', value);
+	        }
+	      });
+	      // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
+	      promise._h = isNode || isUnhandled(promise) ? 2 : 1;
+	    } promise._a = undefined;
+	    if(abrupt)throw abrupt.error;
+	  });
+	};
+	var isUnhandled = function(promise){
+	  if(promise._h == 1)return false;
+	  var chain = promise._a || promise._c
+	    , i     = 0
+	    , reaction;
+	  while(chain.length > i){
+	    reaction = chain[i++];
+	    if(reaction.fail || !isUnhandled(reaction.promise))return false;
+	  } return true;
+	};
+	var onHandleUnhandled = function(promise){
+	  task.call(global, function(){
+	    var handler;
+	    if(isNode){
+	      process.emit('rejectionHandled', promise);
+	    } else if(handler = global.onrejectionhandled){
+	      handler({promise: promise, reason: promise._v});
+	    }
+	  });
+	};
+	var $reject = function(value){
+	  var promise = this;
+	  if(promise._d)return;
+	  promise._d = true;
+	  promise = promise._w || promise; // unwrap
+	  promise._v = value;
+	  promise._s = 2;
+	  if(!promise._a)promise._a = promise._c.slice();
+	  notify(promise, true);
+	};
+	var $resolve = function(value){
+	  var promise = this
+	    , then;
+	  if(promise._d)return;
+	  promise._d = true;
+	  promise = promise._w || promise; // unwrap
+	  try {
+	    if(promise === value)throw TypeError("Promise can't be resolved itself");
+	    if(then = isThenable(value)){
+	      microtask(function(){
+	        var wrapper = {_w: promise, _d: false}; // wrap
+	        try {
+	          then.call(value, ctx($resolve, wrapper, 1), ctx($reject, wrapper, 1));
+	        } catch(e){
+	          $reject.call(wrapper, e);
+	        }
+	      });
+	    } else {
+	      promise._v = value;
+	      promise._s = 1;
+	      notify(promise, false);
+	    }
+	  } catch(e){
+	    $reject.call({_w: promise, _d: false}, e); // wrap
+	  }
+	};
+	
+	// constructor polyfill
+	if(!USE_NATIVE){
+	  // 25.4.3.1 Promise(executor)
+	  $Promise = function Promise(executor){
+	    anInstance(this, $Promise, PROMISE, '_h');
+	    aFunction(executor);
+	    Internal.call(this);
+	    try {
+	      executor(ctx($resolve, this, 1), ctx($reject, this, 1));
+	    } catch(err){
+	      $reject.call(this, err);
+	    }
+	  };
+	  Internal = function Promise(executor){
+	    this._c = [];             // <- awaiting reactions
+	    this._a = undefined;      // <- checked in isUnhandled reactions
+	    this._s = 0;              // <- state
+	    this._d = false;          // <- done
+	    this._v = undefined;      // <- value
+	    this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
+	    this._n = false;          // <- notify
+	  };
+	  Internal.prototype = __webpack_require__(113)($Promise.prototype, {
+	    // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
+	    then: function then(onFulfilled, onRejected){
+	      var reaction    = newPromiseCapability(speciesConstructor(this, $Promise));
+	      reaction.ok     = typeof onFulfilled == 'function' ? onFulfilled : true;
+	      reaction.fail   = typeof onRejected == 'function' && onRejected;
+	      reaction.domain = isNode ? process.domain : undefined;
+	      this._c.push(reaction);
+	      if(this._a)this._a.push(reaction);
+	      if(this._s)notify(this, false);
+	      return reaction.promise;
+	    },
+	    // 25.4.5.1 Promise.prototype.catch(onRejected)
+	    'catch': function(onRejected){
+	      return this.then(undefined, onRejected);
+	    }
+	  });
+	  PromiseCapability = function(){
+	    var promise  = new Internal;
+	    this.promise = promise;
+	    this.resolve = ctx($resolve, promise, 1);
+	    this.reject  = ctx($reject, promise, 1);
+	  };
+	}
+	
+	$export($export.G + $export.W + $export.F * !USE_NATIVE, {Promise: $Promise});
+	__webpack_require__(52)($Promise, PROMISE);
+	__webpack_require__(114)(PROMISE);
+	Wrapper = __webpack_require__(15)[PROMISE];
+	
+	// statics
+	$export($export.S + $export.F * !USE_NATIVE, PROMISE, {
+	  // 25.4.4.5 Promise.reject(r)
+	  reject: function reject(r){
+	    var capability = newPromiseCapability(this)
+	      , $$reject   = capability.reject;
+	    $$reject(r);
+	    return capability.promise;
+	  }
+	});
+	$export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
+	  // 25.4.4.6 Promise.resolve(x)
+	  resolve: function resolve(x){
+	    // instanceof instead of internal slot check because we should fix it without replacement native Promise core
+	    if(x instanceof $Promise && sameConstructor(x.constructor, this))return x;
+	    var capability = newPromiseCapability(this)
+	      , $$resolve  = capability.resolve;
+	    $$resolve(x);
+	    return capability.promise;
+	  }
+	});
+	$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(115)(function(iter){
+	  $Promise.all(iter)['catch'](empty);
+	})), PROMISE, {
+	  // 25.4.4.1 Promise.all(iterable)
+	  all: function all(iterable){
+	    var C          = this
+	      , capability = newPromiseCapability(C)
+	      , resolve    = capability.resolve
+	      , reject     = capability.reject;
+	    var abrupt = perform(function(){
+	      var values    = []
+	        , index     = 0
+	        , remaining = 1;
+	      forOf(iterable, false, function(promise){
+	        var $index        = index++
+	          , alreadyCalled = false;
+	        values.push(undefined);
+	        remaining++;
+	        C.resolve(promise).then(function(value){
+	          if(alreadyCalled)return;
+	          alreadyCalled  = true;
+	          values[$index] = value;
+	          --remaining || resolve(values);
+	        }, reject);
+	      });
+	      --remaining || resolve(values);
+	    });
+	    if(abrupt)reject(abrupt.error);
+	    return capability.promise;
+	  },
+	  // 25.4.4.4 Promise.race(iterable)
+	  race: function race(iterable){
+	    var C          = this
+	      , capability = newPromiseCapability(C)
+	      , reject     = capability.reject;
+	    var abrupt = perform(function(){
+	      forOf(iterable, false, function(promise){
+	        C.resolve(promise).then(capability.resolve, reject);
+	      });
+	    });
+	    if(abrupt)reject(abrupt.error);
+	    return capability.promise;
+	  }
+	});
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// getting tag from 19.1.3.6 Object.prototype.toString()
+	var cof = __webpack_require__(46)
+	  , TAG = __webpack_require__(53)('toStringTag')
+	  // ES3 wrong here
+	  , ARG = cof(function(){ return arguments; }()) == 'Arguments';
+	
+	// fallback for IE11 Script Access Denied error
+	var tryGet = function(it, key){
+	  try {
+	    return it[key];
+	  } catch(e){ /* empty */ }
+	};
+	
+	module.exports = function(it){
+	  var O, T, B;
+	  return it === undefined ? 'Undefined' : it === null ? 'Null'
+	    // @@toStringTag case
+	    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+	    // builtinTag case
+	    : ARG ? cof(O)
+	    // ES3 arguments fallback
+	    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+	};
+
+/***/ },
+/* 104 */
+/***/ function(module, exports) {
+
+	module.exports = function(it, Constructor, name, forbiddenField){
+	  if(!(it instanceof Constructor) || (forbiddenField !== undefined && forbiddenField in it)){
+	    throw TypeError(name + ': incorrect invocation!');
+	  } return it;
+	};
+
+/***/ },
+/* 105 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ctx         = __webpack_require__(16)
+	  , call        = __webpack_require__(106)
+	  , isArrayIter = __webpack_require__(107)
+	  , anObject    = __webpack_require__(20)
+	  , toLength    = __webpack_require__(48)
+	  , getIterFn   = __webpack_require__(108)
+	  , BREAK       = {}
+	  , RETURN      = {};
+	var exports = module.exports = function(iterable, entries, fn, that, ITERATOR){
+	  var iterFn = ITERATOR ? function(){ return iterable; } : getIterFn(iterable)
+	    , f      = ctx(fn, that, entries ? 2 : 1)
+	    , index  = 0
+	    , length, step, iterator, result;
+	  if(typeof iterFn != 'function')throw TypeError(iterable + ' is not iterable!');
+	  // fast case for arrays with default iterator
+	  if(isArrayIter(iterFn))for(length = toLength(iterable.length); length > index; index++){
+	    result = entries ? f(anObject(step = iterable[index])[0], step[1]) : f(iterable[index]);
+	    if(result === BREAK || result === RETURN)return result;
+	  } else for(iterator = iterFn.call(iterable); !(step = iterator.next()).done; ){
+	    result = call(iterator, f, step.value, entries);
+	    if(result === BREAK || result === RETURN)return result;
+	  }
+	};
+	exports.BREAK  = BREAK;
+	exports.RETURN = RETURN;
+
+/***/ },
+/* 106 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// call something on iterator step with safe closing on error
+	var anObject = __webpack_require__(20);
+	module.exports = function(iterator, fn, value, entries){
+	  try {
+	    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
+	  // 7.4.6 IteratorClose(iterator, completion)
+	  } catch(e){
+	    var ret = iterator['return'];
+	    if(ret !== undefined)anObject(ret.call(iterator));
+	    throw e;
+	  }
+	};
+
+/***/ },
+/* 107 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// check on default Array iterator
+	var Iterators  = __webpack_require__(38)
+	  , ITERATOR   = __webpack_require__(53)('iterator')
+	  , ArrayProto = Array.prototype;
+	
+	module.exports = function(it){
+	  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
+	};
+
+/***/ },
+/* 108 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var classof   = __webpack_require__(103)
+	  , ITERATOR  = __webpack_require__(53)('iterator')
+	  , Iterators = __webpack_require__(38);
+	module.exports = __webpack_require__(15).getIteratorMethod = function(it){
+	  if(it != undefined)return it[ITERATOR]
+	    || it['@@iterator']
+	    || Iterators[classof(it)];
+	};
+
+/***/ },
+/* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+	var anObject  = __webpack_require__(20)
+	  , aFunction = __webpack_require__(17)
+	  , SPECIES   = __webpack_require__(53)('species');
+	module.exports = function(O, D){
+	  var C = anObject(O).constructor, S;
+	  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
+	};
+
+/***/ },
+/* 110 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ctx                = __webpack_require__(16)
+	  , invoke             = __webpack_require__(111)
+	  , html               = __webpack_require__(51)
+	  , cel                = __webpack_require__(25)
+	  , global             = __webpack_require__(11)
+	  , process            = global.process
+	  , setTask            = global.setImmediate
+	  , clearTask          = global.clearImmediate
+	  , MessageChannel     = global.MessageChannel
+	  , counter            = 0
+	  , queue              = {}
+	  , ONREADYSTATECHANGE = 'onreadystatechange'
+	  , defer, channel, port;
+	var run = function(){
+	  var id = +this;
+	  if(queue.hasOwnProperty(id)){
+	    var fn = queue[id];
+	    delete queue[id];
+	    fn();
+	  }
+	};
+	var listener = function(event){
+	  run.call(event.data);
+	};
+	// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
+	if(!setTask || !clearTask){
+	  setTask = function setImmediate(fn){
+	    var args = [], i = 1;
+	    while(arguments.length > i)args.push(arguments[i++]);
+	    queue[++counter] = function(){
+	      invoke(typeof fn == 'function' ? fn : Function(fn), args);
+	    };
+	    defer(counter);
+	    return counter;
+	  };
+	  clearTask = function clearImmediate(id){
+	    delete queue[id];
+	  };
+	  // Node.js 0.8-
+	  if(__webpack_require__(46)(process) == 'process'){
+	    defer = function(id){
+	      process.nextTick(ctx(run, id, 1));
+	    };
+	  // Browsers with MessageChannel, includes WebWorkers
+	  } else if(MessageChannel){
+	    channel = new MessageChannel;
+	    port    = channel.port2;
+	    channel.port1.onmessage = listener;
+	    defer = ctx(port.postMessage, port, 1);
+	  // Browsers with postMessage, skip WebWorkers
+	  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+	  } else if(global.addEventListener && typeof postMessage == 'function' && !global.importScripts){
+	    defer = function(id){
+	      global.postMessage(id + '', '*');
+	    };
+	    global.addEventListener('message', listener, false);
+	  // IE8-
+	  } else if(ONREADYSTATECHANGE in cel('script')){
+	    defer = function(id){
+	      html.appendChild(cel('script'))[ONREADYSTATECHANGE] = function(){
+	        html.removeChild(this);
+	        run.call(id);
+	      };
+	    };
+	  // Rest old browsers
+	  } else {
+	    defer = function(id){
+	      setTimeout(ctx(run, id, 1), 0);
+	    };
+	  }
+	}
+	module.exports = {
+	  set:   setTask,
+	  clear: clearTask
+	};
+
+/***/ },
+/* 111 */
+/***/ function(module, exports) {
+
+	// fast apply, http://jsperf.lnkit.com/fast-apply/5
+	module.exports = function(fn, args, that){
+	  var un = that === undefined;
+	  switch(args.length){
+	    case 0: return un ? fn()
+	                      : fn.call(that);
+	    case 1: return un ? fn(args[0])
+	                      : fn.call(that, args[0]);
+	    case 2: return un ? fn(args[0], args[1])
+	                      : fn.call(that, args[0], args[1]);
+	    case 3: return un ? fn(args[0], args[1], args[2])
+	                      : fn.call(that, args[0], args[1], args[2]);
+	    case 4: return un ? fn(args[0], args[1], args[2], args[3])
+	                      : fn.call(that, args[0], args[1], args[2], args[3]);
+	  } return              fn.apply(that, args);
+	};
+
+/***/ },
+/* 112 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(11)
+	  , macrotask = __webpack_require__(110).set
+	  , Observer  = global.MutationObserver || global.WebKitMutationObserver
+	  , process   = global.process
+	  , Promise   = global.Promise
+	  , isNode    = __webpack_require__(46)(process) == 'process';
+	
+	module.exports = function(){
+	  var head, last, notify;
+	
+	  var flush = function(){
+	    var parent, fn;
+	    if(isNode && (parent = process.domain))parent.exit();
+	    while(head){
+	      fn   = head.fn;
+	      head = head.next;
+	      try {
+	        fn();
+	      } catch(e){
+	        if(head)notify();
+	        else last = undefined;
+	        throw e;
+	      }
+	    } last = undefined;
+	    if(parent)parent.enter();
+	  };
+	
+	  // Node.js
+	  if(isNode){
+	    notify = function(){
+	      process.nextTick(flush);
+	    };
+	  // browsers with MutationObserver
+	  } else if(Observer){
+	    var toggle = true
+	      , node   = document.createTextNode('');
+	    new Observer(flush).observe(node, {characterData: true}); // eslint-disable-line no-new
+	    notify = function(){
+	      node.data = toggle = !toggle;
+	    };
+	  // environments with maybe non-completely correct, but existent Promise
+	  } else if(Promise && Promise.resolve){
+	    var promise = Promise.resolve();
+	    notify = function(){
+	      promise.then(flush);
+	    };
+	  // for other environments - macrotask based on:
+	  // - setImmediate
+	  // - MessageChannel
+	  // - window.postMessag
+	  // - onreadystatechange
+	  // - setTimeout
+	  } else {
+	    notify = function(){
+	      // strange IE + webpack dev server bug - use .call(global)
+	      macrotask.call(global, flush);
+	    };
+	  }
+	
+	  return function(fn){
+	    var task = {fn: fn, next: undefined};
+	    if(last)last.next = task;
+	    if(!head){
+	      head = task;
+	      notify();
+	    } last = task;
+	  };
+	};
+
+/***/ },
+/* 113 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var hide = __webpack_require__(18);
+	module.exports = function(target, src, safe){
+	  for(var key in src){
+	    if(safe && target[key])target[key] = src[key];
+	    else hide(target, key, src[key]);
+	  } return target;
+	};
+
+/***/ },
+/* 114 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var global      = __webpack_require__(11)
+	  , core        = __webpack_require__(15)
+	  , dP          = __webpack_require__(19)
+	  , DESCRIPTORS = __webpack_require__(23)
+	  , SPECIES     = __webpack_require__(53)('species');
+	
+	module.exports = function(KEY){
+	  var C = typeof core[KEY] == 'function' ? core[KEY] : global[KEY];
+	  if(DESCRIPTORS && C && !C[SPECIES])dP.f(C, SPECIES, {
+	    configurable: true,
+	    get: function(){ return this; }
+	  });
+	};
+
+/***/ },
+/* 115 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ITERATOR     = __webpack_require__(53)('iterator')
+	  , SAFE_CLOSING = false;
+	
+	try {
+	  var riter = [7][ITERATOR]();
+	  riter['return'] = function(){ SAFE_CLOSING = true; };
+	  Array.from(riter, function(){ throw 2; });
+	} catch(e){ /* empty */ }
+	
+	module.exports = function(exec, skipClosing){
+	  if(!skipClosing && !SAFE_CLOSING)return false;
+	  var safe = false;
+	  try {
+	    var arr  = [7]
+	      , iter = arr[ITERATOR]();
+	    iter.next = function(){ return {done: safe = true}; };
+	    arr[ITERATOR] = function(){ return iter; };
+	    exec(arr);
+	  } catch(e){ /* empty */ }
+	  return safe;
+	};
+
+/***/ },
+/* 116 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var BLACKBOARD = exports.BLACKBOARD = {
+	    "developers": [{ "id": 1, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 2,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 3, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 4,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 5, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 7,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 8, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 9,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 10, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 11,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 13, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 14,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 15, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 16,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 17, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 20,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 21, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 22,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 23, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 24,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 26, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 27,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 28, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 29,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 30, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 32,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 33, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 34,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }, { "id": 35, "firstName": "Developer", "lastName": "Test", "photoUrl": null, "tasks": [] }, {
+	        "id": 36,
+	        "firstName": "Developer",
+	        "lastName": "Test",
+	        "photoUrl": null,
+	        "tasks": []
+	    }],
+	    "queue": [{ "id": 1, "title": "task 0", "text": "TODO 0", "priority": "priority0" }, {
+	        "id": 2,
+	        "title": "task 1",
+	        "text": "TODO 1",
+	        "priority": "priority1"
+	    }, { "id": 3, "title": "task 2", "text": "TODO 2", "priority": "priority2" }, {
+	        "id": 4,
+	        "title": "task 3",
+	        "text": "TODO 3",
+	        "priority": "priority0"
+	    }, { "id": 5, "title": "task 0", "text": "TODO 0", "priority": "priority0" }, {
+	        "id": 6,
+	        "title": "task 1",
+	        "text": "TODO 1",
+	        "priority": "priority1"
+	    }, { "id": 7, "title": "task 2", "text": "TODO 2", "priority": "priority2" }, {
+	        "id": 8,
+	        "title": "task 3",
+	        "text": "TODO 3",
+	        "priority": "priority0"
+	    }, { "id": 9, "title": "task 0", "text": "TODO 0", "priority": "priority0" }, {
+	        "id": 10,
+	        "title": "task 1",
+	        "text": "TODO 1",
+	        "priority": "priority1"
+	    }, { "id": 11, "title": "task 2", "text": "TODO 2", "priority": "priority2" }, {
+	        "id": 12,
+	        "title": "task 3",
+	        "text": "TODO 3",
+	        "priority": "priority0"
+	    }, { "id": 13, "title": "task 0", "text": "TODO 0", "priority": "priority0" }, {
+	        "id": 14,
+	        "title": "task 1",
+	        "text": "TODO 1",
+	        "priority": "priority1"
+	    }, { "id": 15, "title": "task 2", "text": "TODO 2", "priority": "priority2" }, {
+	        "id": 16,
+	        "title": "task 3",
+	        "text": "TODO 3",
+	        "priority": "priority0"
+	    }, { "id": 17, "title": "task 0", "text": "TODO 0", "priority": "priority0" }, {
+	        "id": 18,
+	        "title": "task 1",
+	        "text": "TODO 1",
+	        "priority": "priority1"
+	    }, { "id": 19, "title": "task 2", "text": "TODO 2", "priority": "priority2" }, {
+	        "id": 20,
+	        "title": "task 3",
+	        "text": "TODO 3",
+	        "priority": "priority0"
+	    }, { "id": 21, "title": "task 0", "text": "TODO 0", "priority": "priority0" }, {
+	        "id": 22,
+	        "title": "task 1",
+	        "text": "TODO 1",
+	        "priority": "priority1"
+	    }]
+	};
+
+/***/ },
+/* 117 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.TaskList = undefined;
+	
+	var _assign = __webpack_require__(89);
+	
+	var _assign2 = _interopRequireDefault(_assign);
+	
+	var _classCallCheck2 = __webpack_require__(83);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(84);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _index = __webpack_require__(118);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var TaskList = function () {
+	    function TaskList(context, options) {
+	        (0, _classCallCheck3.default)(this, TaskList);
+	
+	        this.options = (0, _assign2.default)(TaskList.defaults, options);
+	
+	        this.elements = {};
+	
+	        context.appendChild(TaskList.createTaskList(options));
+	
+	        this.context = context.querySelector('#' + TaskList.classes.root + options.index);
+	        this.elements.root = this.context;
+	
+	        this.setTitle();
+	        this.initElements();
+	    }
+	
+	    (0, _createClass3.default)(TaskList, [{
+	        key: 'initElements',
+	        value: function initElements() {
+	            var index = 1;
+	            for (var item in TaskList.defaults.tasks) {
+	                this.context.appendChild(_index.Task.createElement(index));
+	                this.elements[item] = new _index.Task(document.querySelector('#task' + index++), { task: TaskList.defaults.tasks[item] });
+	            }
+	        }
+	    }, {
+	        key: 'setTitle',
+	        value: function setTitle() {
+	            this.context.appendChild(TaskList.createTitle());
+	        }
+	    }], [{
+	        key: 'createTaskList',
+	        value: function createTaskList(options) {
+	            var taskList = document.createElement('div');
+	            taskList.className = TaskList.classes.root;
+	            taskList.setAttribute('id', '' + TaskList.classes.root + options.index);
+	
+	            return taskList;
+	        }
+	    }, {
+	        key: 'createTitle',
+	        value: function createTitle() {
+	            var title = document.createElement('h2');
+	            title.className = TaskList.classes.title;
+	            title.innerHTML = TaskList.defaults.firstName;
+	            return title;
+	        }
+	    }]);
+	    return TaskList;
+	}();
+	
+	TaskList.classes = {
+	    root: "taskList",
+	    title: "taskList-title"
+	
+	};
+	
+	TaskList.defaults = {};
+	
+	exports.TaskList = TaskList;
+
+/***/ },
+/* 118 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Task = undefined;
+	
+	var _assign = __webpack_require__(89);
+	
+	var _assign2 = _interopRequireDefault(_assign);
+	
+	var _classCallCheck2 = __webpack_require__(83);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(84);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Task = function () {
+	    function Task(context, options) {
+	        (0, _classCallCheck3.default)(this, Task);
+	
+	        this.context = context;
+	        this.options = (0, _assign2.default)({}, Task.defaults, options);
+	
+	        this.elements = {};
+	
+	        this.elements.root = this.context;
+	
+	        if (!this.context.classList.contains(Task.classes.root)) {
+	            this.elements.root = this.context.querySelector("." + Task.classes.root);
+	        }
+	
+	        if (!this.elements.root) {
+	            throw new Error("Context " + this.context + " has no ." + Task.classes.root + " element");
+	        }
+	
+	        this.initElements();
+	        this.initHandlers();
+	
+	        if (this.options.draggable) {
+	            this.elements.root.setAttribute("draggable", "true");
+	        }
+	    }
+	
+	    (0, _createClass3.default)(Task, [{
+	        key: "initElements",
+	        value: function initElements() {
+	            for (var item in Task.classes) {
+	                if (!Task.classes.hasOwnProperty(item)) continue;
+	
+	                if (item === "root") continue; // root element is already initialized
+	
+	                this.elements[item] = this.elements.root.querySelector("." + Task.classes[item]);
+	                if (!this.elements[item]) {
+	                    console.log(item + " is not found.");
+	                }
+	            }
+	        }
+	    }, {
+	        key: "changeStatus",
+	        value: function changeStatus() {}
+	    }, {
+	        key: "initHandlers",
+	        value: function initHandlers() {
+	            this.elements.root.addEventListener("dragstart", this.dragStartHandler.bind(this));
+	            this.elements.root.addEventListener("dragover", this.dragOverHandler.bind(this));
+	            this.elements.root.addEventListener("drop", this.dropHandler.bind(this));
+	        }
+	    }, {
+	        key: "dragStartHandler",
+	        value: function dragStartHandler(e) {
+	            this.options.onDragStart(this);
+	        }
+	    }, {
+	        key: "dragOverHandler",
+	        value: function dragOverHandler(e) {
+	            e.preventDefault();
+	            this.options.onDragOver(this);
+	        }
+	    }, {
+	        key: "dropHandler",
+	        value: function dropHandler(e) {
+	            this.options.onDrop(this);
+	        }
+	    }], [{
+	        key: "createElement",
+	        value: function createElement(index) {
+	            var div = document.createElement('div');
+	            var id = "" + Task.classes.root + index;
+	            div.setAttribute('id', id);
+	            div.className = Task.classes.root;
+	            return div;
+	        }
+	    }]);
+	    return Task;
+	}();
+	
+	Task.defaults = {
+	    draggable: true,
+	    onDragStart: function onDragStart() {},
+	    onDragOver: function onDragOver() {},
+	    onDrop: function onDrop() {}
+	};
+	
+	Task.classes = {
+	    root: "task",
+	    taskCheck: "task-check",
+	    taskTitle: "task-title",
+	    taskDescription: "task-description"
+	};
+	
+	exports.Task = Task;
+
+/***/ },
+/* 119 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Permission = undefined;
+	
+	var _promise = __webpack_require__(100);
+	
+	var _promise2 = _interopRequireDefault(_promise);
+	
+	var _classCallCheck2 = __webpack_require__(83);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(84);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _Request = __webpack_require__(99);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Permission = function () {
+	    function Permission() {
+	        (0, _classCallCheck3.default)(this, Permission);
+	
+	        this.getUserRole();
+	    }
+	
+	    (0, _createClass3.default)(Permission, [{
+	        key: "getUserRole",
+	        value: function getUserRole() {
+	            var request = new _Request.Request("/rest/user/current", "GET");
+	
+	            // request.send().then((response) => {
+	            //         console.log(response);
+	            //     }).catch((error) => {
+	            //         console.log("Error: " + error);
+	            //     })
+	            var mock = {
+	                id: 1,
+	                userRole: 1
+	            };
+	
+	            _promise2.default.resolve(mock).then(function (response) {
+	                console.log(response);
+	            });
+	        }
+	    }], [{
 	        key: "run",
 	        value: function run() {
-	            WelcomePage.instance = new WelcomePage();
+	            Permission.instance = new Permission();
 	        }
 	    }, {
 	        key: "getInstance",
 	        value: function getInstance() {
-	            return WelcomePage.instance;
+	            return Permission.instance;
 	        }
 	    }]);
-	    return WelcomePage;
+	    return Permission;
 	}();
 	
-	var SignInForm = function (_Form) {
-	    (0, _inherits3.default)(SignInForm, _Form);
-	
-	    function SignInForm(options) {
-	        (0, _classCallCheck3.default)(this, SignInForm);
-	        return (0, _possibleConstructorReturn3.default)(this, (SignInForm.__proto__ || (0, _getPrototypeOf2.default)(SignInForm)).call(this, document.querySelector(".form--signIn"), options));
-	    }
-	
-	    (0, _createClass3.default)(SignInForm, [{
-	        key: "submitHandler",
-	        value: function submitHandler(e) {
-	            console.log("SignInForm submitted!");
-	        }
-	    }]);
-	    return SignInForm;
-	}(_index.Form);
-	
-	exports.WelcomePage = WelcomePage;
+	exports.Permission = Permission;
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=welcome.js.map
+//# sourceMappingURL=index_new_new.js.map

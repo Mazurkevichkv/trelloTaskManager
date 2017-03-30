@@ -2064,4 +2064,4 @@ var App =
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=register.js.map
+//# sourceMappingURL=register_new_new.js.map
