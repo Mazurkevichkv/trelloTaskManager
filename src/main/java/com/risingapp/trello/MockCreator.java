@@ -137,31 +137,31 @@ public class MockCreator {
         developer1.setUserRole(UserRole.DEVELOPER);
         developer1.setTaskIds(new ArrayList<>());
         developerRepository.save(developer1);
-        developer1.getTaskIds().add(teamLead1.getId());
+        developer1.setTeamLeadId(teamLead1.getId());
         teamLead1.getDeveloperIds().add(developer1.getId());
 
         developer2 = new Developer();
         developer2.setEmail("developer1@gmail.com");
         developer2.setPassword("admin");
         developer2.setRegistrationDay(sdf.format(new Date()));
-        developer2.setFirstName("Dev1" );
-        developer2.setLastName("Senior1");
+        developer2.setFirstName("Dev2" );
+        developer2.setLastName("Senior2");
         developer2.setUserRole(UserRole.DEVELOPER);
         developer2.setTaskIds(new ArrayList<>());
         developerRepository.save(developer2);
-        developer2.getTaskIds().add(teamLead1.getId());
-        teamLead1.getDeveloperIds().add(developer2.getId());
+        developer2.setTeamLeadId(teamLead2.getId());
+        teamLead2.getDeveloperIds().add(developer2.getId());
 
         developer3 = new Developer();
         developer3.setEmail("developer1@gmail.com");
         developer3.setPassword("admin");
         developer3.setRegistrationDay(sdf.format(new Date()));
-        developer3.setFirstName("Dev1" );
-        developer3.setLastName("Senior1");
+        developer3.setFirstName("Dev2" );
+        developer3.setLastName("Senior2");
         developer3.setUserRole(UserRole.DEVELOPER);
         developer3.setTaskIds(new ArrayList<>());
         developerRepository.save(developer3);
-        developer3.getTaskIds().add(teamLead2.getId());
+        developer3.setTeamLeadId(teamLead2.getId());
         teamLead2.getDeveloperIds().add(developer3.getId());
     }
 
