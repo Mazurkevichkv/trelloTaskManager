@@ -12,6 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DeveloperRepository extends JpaRepository<Developer, Long> {
 
-    @Query("SELECT d FROM Developer d WHERE d.email = :email")
-    Developer getByEmail(@Param("email") String email);
+    Developer findByEmail(String email);
 }

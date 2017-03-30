@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
+@Table(name = "product_owners")
 public class ProductOwner extends User {
 
     @Column

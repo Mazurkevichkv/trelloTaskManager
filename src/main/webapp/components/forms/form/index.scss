@@ -1,0 +1,28 @@
+.form {
+  &-row {
+    margin-bottom: 32px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &--rightAligned {
+      text-align: right;
+    }
+  }
+  
+  &-group {
+    display: flex;
+    align-items: center;
+    margin: -8px;
+  }
+  
+  &-groupItem {
+    flex: 1 1 auto;
+    padding: 8px;
+    
+    &--rightAligned {
+      text-align: right;
+    }
+  }
+}
