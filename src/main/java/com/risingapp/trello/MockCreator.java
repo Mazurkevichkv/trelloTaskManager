@@ -141,7 +141,7 @@ public class MockCreator {
         teamLead1.getDeveloperIds().add(developer1.getId());
 
         developer2 = new Developer();
-        developer2.setEmail("developer1@gmail.com");
+        developer2.setEmail("developer2@gmail.com");
         developer2.setPassword("admin");
         developer2.setRegistrationDay(sdf.format(new Date()));
         developer2.setFirstName("Dev2" );
@@ -153,11 +153,11 @@ public class MockCreator {
         teamLead2.getDeveloperIds().add(developer2.getId());
 
         developer3 = new Developer();
-        developer3.setEmail("developer1@gmail.com");
+        developer3.setEmail("developer3@gmail.com");
         developer3.setPassword("admin");
         developer3.setRegistrationDay(sdf.format(new Date()));
-        developer3.setFirstName("Dev2" );
-        developer3.setLastName("Senior2");
+        developer3.setFirstName("Dev3" );
+        developer3.setLastName("Senior3");
         developer3.setUserRole(UserRole.DEVELOPER);
         developer3.setTaskIds(new ArrayList<>());
         developerRepository.save(developer3);
