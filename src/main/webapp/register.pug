@@ -1,7 +1,7 @@
 extends templates/logo-only
 
 append scripts
-    script(src="scripts/register.js")
+    script(src="scripts/register_new.js")
     script.
         App.RegisterPage.run();
 
@@ -20,32 +20,32 @@ block content
             
             .form-row
                 +inputText({
-                    title: "First name:", 
-                    name: "firstName",
-                    required: true
+                    title: "First name:",
+                    required: true,
+                    name: "firstName"
                 })
                 
             .form-row
                 +inputText({
                     title: "Last name:",
-                    name: "lastName",
-                    required: true
+                    required: true,
+                    name: "lastName"
                 })
                 
             .form-row
                 +inputText({
                     title: "Email:",
                     type: "email",
-                    name: "email",
-                    required: true
+                    required: true,
+                    name: "email"
                 })
                 
             .form-row
                 +inputText({
                     title: "Password:", 
                     type: "password",
-                    name: "password",
-                    required: true
+                    required: true,
+                    name: "password"
                 })
                 
             .form-row
@@ -59,7 +59,7 @@ block content
                 .form-group
                     .form-groupItem
                         | Have account? 
-                        a(href="/welcome.html").welcome-registerLink Sign in!
+                        a(href="/login").welcome-registerLink Sign in!
                     .form-groupItem.form-groupItem--rightAligned
                         +inputSubmit({
                             title: "Register"

@@ -1,7 +1,7 @@
 extends templates/logo-only
 
 append scripts
-    script(src="scripts/welcome.js")
+    script(src="scripts/welcome_new.js")
     script.
         App.WelcomePage.run();
 
@@ -21,22 +21,22 @@ block content
                 +inputText({
                     title: "Email:",
                     type: "email",
-                    name: "email",
-                    required: true
+                    required: true,
+                    name: "email"
                 })
                 
             .form-row
                 +inputText({
                     title: "Password:", 
-                    type: "password", 
-                    name: "password",
-                    required: true
+                    type: "password",
+                    required: true,
+                    name: "password"
                 })
                 
             .form-row
                 .form-group
                     .form-groupItem
-                        a(href="/register.html").welcome-registerLink Register
+                        a(href="/registration").welcome-registerLink Register
                     .form-groupItem.form-groupItem--rightAligned
                         +inputSubmit({
                             title: "Sign in"

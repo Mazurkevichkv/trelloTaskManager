@@ -1,4 +1,5 @@
 import {Request} from "../../scripts/utils/Request";
+import {BLACKBOARD} from "../../scripts/mocks/mock";
 import {TaskList} from "../taskList/index";
 
 class Board {
@@ -25,6 +26,10 @@ class Board {
 
     loadElements() {
         const request = new Request("/rest/blackboard", "GET");
+        
+        const auth = new Request("/login_check", "POST");
+        
+        console.log(location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: ''));
         
         request.send()
             .then((response) => {
@@ -68,6 +73,10 @@ class Board {
             this.board.main.appendChild( div );
             this.elements[item] = new TaskList(div);
         }
+    }
+
+    initHandlers() {
+        //this.elements.closeBtn.addEventListener("click", this.closeBtnClickHandler.bind(this));
     }
 }
 

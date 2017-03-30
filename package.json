@@ -9,9 +9,9 @@
   "author": "RisingApp",
   "license": "MIT",
   "scripts": {
-    "postinstall": "node ./node_modules/gulp/bin/gulp.js build"
+    "postinstalloff": "node ./node_modules/gulp/bin/gulp.js build"
   },
-  "devDependencies": {
+  "dependencies": {
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
@@ -37,13 +37,11 @@
     "postcss-inline-svg": "^2.3.0",
     "sass-module-importer": "^1.4.0",
     "vinyl-named": "^1.1.0",
-    "webpack": "^2.3.2"
-  },
-  "dependencies": {
+    "webpack": "^2.1.0",
     "include-media": "^1.4.9",
     "normalize-scss": "^6.0.0"
   },
   "engines": {
-    "node": "7.4.0"
+    "node": "7.5.0"
   }
 }
