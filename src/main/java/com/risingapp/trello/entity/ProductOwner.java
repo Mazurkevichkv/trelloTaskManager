@@ -27,5 +27,6 @@ public class ProductOwner extends User {
         this.userRole = UserRole.PRODUCT_OWNER;
 //        this.solvedTasks = new ArrayList<>();
         this.teamLeadIds = new ArrayList<>();
+        this.createdTaskIds = new ArrayList<>();
     }
 }
