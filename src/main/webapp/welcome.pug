@@ -21,20 +21,22 @@ block content
                 +inputText({
                     title: "Email:",
                     type: "email",
-                    required: true
+                    required: true,
+                    name: "email"
                 })
                 
             .form-row
                 +inputText({
                     title: "Password:", 
                     type: "password",
-                    required: true
+                    required: true,
+                    name: "password"
                 })
                 
             .form-row
                 .form-group
                     .form-groupItem
-                        a(href="/register.html").welcome-registerLink Register
+                        a(href="/registration").welcome-registerLink Register
                     .form-groupItem.form-groupItem--rightAligned
                         +inputSubmit({
                             title: "Sign in"

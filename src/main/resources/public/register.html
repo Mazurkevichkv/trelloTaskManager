@@ -35,22 +35,22 @@
             <h2>Registration</h2>
             <div class="form-row">
               <div class="input input--empty inputText">
-                <label class="input-wrapper"><span class="input-holder"><input class="input-el" type="text" required=""><span class="input-label"><span class="input-caption">First name:</span></span></span><span class="input-advice"></span></label>
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" name="firstName" type="text" required=""><span class="input-label"><span class="input-caption">First name:</span></span></span><span class="input-advice"></span></label>
               </div>
             </div>
             <div class="form-row">
               <div class="input input--empty inputText">
-                <label class="input-wrapper"><span class="input-holder"><input class="input-el" type="text" required=""><span class="input-label"><span class="input-caption">Last name:</span></span></span><span class="input-advice"></span></label>
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" name="lastName" type="text" required=""><span class="input-label"><span class="input-caption">Last name:</span></span></span><span class="input-advice"></span></label>
               </div>
             </div>
             <div class="form-row">
               <div class="input input--empty inputText">
-                <label class="input-wrapper"><span class="input-holder"><input class="input-el" type="email" required=""><span class="input-label"><span class="input-caption">Email:</span></span></span><span class="input-advice"></span></label>
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" name="email" type="email" required=""><span class="input-label"><span class="input-caption">Email:</span></span></span><span class="input-advice"></span></label>
               </div>
             </div>
             <div class="form-row">
               <div class="input input--empty inputText">
-                <label class="input-wrapper"><span class="input-holder"><input class="input-el" type="password" required=""><span class="input-label"><span class="input-caption">Password:</span></span></span><span class="input-advice"></span></label>
+                <label class="input-wrapper"><span class="input-holder"><input class="input-el" name="password" type="password" required=""><span class="input-label"><span class="input-caption">Password:</span></span></span><span class="input-advice"></span></label>
               </div>
             </div>
             <div class="form-row">
@@ -61,7 +61,7 @@
             <div class="form-row">
               <div class="form-group">
                 <div class="form-groupItem">
-                  Have account? <a class="welcome-registerLink" href="/welcome.html">Sign in!</a>
+                  Have account? <a class="welcome-registerLink" href="/login">Sign in!</a>
                 </div>
                 <div class="form-groupItem form-groupItem--rightAligned">
                   <div class="inputSubmit">
@@ -75,7 +75,7 @@
       </div>
     </div>
   </div>
-  <script src="scripts/register_new.js">
+  <script src="scripts/register.js">
   </script> 
   <script>
     App.RegisterPage.run();

@@ -21,27 +21,31 @@ block content
             .form-row
                 +inputText({
                     title: "First name:",
-                    required: true
+                    required: true,
+                    name: "firstName"
                 })
                 
             .form-row
                 +inputText({
                     title: "Last name:",
-                    required: true
+                    required: true,
+                    name: "lastName"
                 })
                 
             .form-row
                 +inputText({
                     title: "Email:",
                     type: "email",
-                    required: true
+                    required: true,
+                    name: "email"
                 })
                 
             .form-row
                 +inputText({
                     title: "Password:", 
                     type: "password",
-                    required: true
+                    required: true,
+                    name: "password"
                 })
                 
             .form-row
@@ -55,7 +59,7 @@ block content
                 .form-group
                     .form-groupItem
                         | Have account? 
-                        a(href="/welcome.html").welcome-registerLink Sign in!
+                        a(href="/login").welcome-registerLink Sign in!
                     .form-groupItem.form-groupItem--rightAligned
                         +inputSubmit({
                             title: "Register"
