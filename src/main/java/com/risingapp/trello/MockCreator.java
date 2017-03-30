@@ -30,7 +30,7 @@ public class MockCreator {
 
     public Developer creatDeveloper() {
         Developer developer = new Developer();
-        developer.setEmail("zinuk14@gmail.com");
+        developer.setEmail("zinu14@gmail.com");
         developer.setPassword("developer");
         developer.setBirthday("1996-11-12");
         developer.setFirstName("Zinoviy");
