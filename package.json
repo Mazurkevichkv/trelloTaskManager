@@ -6,6 +6,7 @@
   "author": "RisingApp",
   "license": "MIT",
   "scripts": {
+    "start": "echo 'ITS OK'",
     "postinstall": "node ./node_modules/gulp/bin/gulp.js build"
   },
   "dependencies": {
