@@ -2421,9 +2421,7 @@ var App =
 	        (0, _classCallCheck3.default)(this, Request);
 	
 	        this.method = method || "GET";
-	        this.BASE_URL = "";
-	        this.BASE_URL = "http://likeittrello.herokuapp.com";
-	        this.url = this.BASE_URL + url || window.location.href;
+	        this.url = url || window.location.href;
 	        this.headers = headers || {};
 	    }
 	
@@ -3647,4 +3645,4 @@ var App =
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index_new.js.map

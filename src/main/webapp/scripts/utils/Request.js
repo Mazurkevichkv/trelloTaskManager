@@ -1,9 +1,7 @@
 class Request {
     constructor(url, method, headers) {
         this.method = method || "GET";
-        this.BASE_URL = "";
-        this.BASE_URL = "http://likeittrello.herokuapp.com";
-        this.url = this.BASE_URL + url || window.location.href;
+        this.url = url || window.location.href;
         this.headers = headers || {};
     }
 
