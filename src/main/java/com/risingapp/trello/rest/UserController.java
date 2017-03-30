@@ -33,9 +33,19 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public @ResponseBody GetUsersResponse getAllUsers() {
-        return userService.getAllUsers();
+    @RequestMapping(value = "/developers", method = RequestMethod.GET)
+    public @ResponseBody GetUsersResponse getDevelopers() {
+        return userService.getDevelopers();
+    }
+
+    @RequestMapping(value = "/product_owners", method = RequestMethod.GET)
+    public @ResponseBody GetUsersResponse getProductOwner() {
+        return userService.getProductOwners();
+    }
+
+    @RequestMapping(value = "/team_leads", method = RequestMethod.GET)
+    public @ResponseBody GetUsersResponse getTeamLeads() {
+        return userService.getTeamLeads();
     }
 
     @RequestMapping(value = "/photo", method = RequestMethod.POST)

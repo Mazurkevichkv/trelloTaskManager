@@ -1,5 +1,6 @@
 package com.risingapp.trello.model.request;
 
+import com.risingapp.trello.entity.UserRole;
 import lombok.Data;
 
 /**
@@ -13,5 +14,5 @@ public class RegistrationUserRequest {
     private String firstName;
     private String lastName;
     private String birthday;
-    private String role;
+    private UserRole role;
 }

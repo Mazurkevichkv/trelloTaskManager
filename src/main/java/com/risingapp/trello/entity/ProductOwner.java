@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,13 +13,19 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "users")
-@DiscriminatorValue(value = UserRole.PRODUCT_OWNER)
+@Table(name = "product_owners")
 public class ProductOwner extends User {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "productOwner")
-    private List<TeamLead> teamLeads;
+    @Column
+    @ElementCollection(targetClass=Long.class)
+    private List<Long> teamLeadIds;
+    @Column
+    @ElementCollection(targetClass=Long.class)
+    private List<Long> createdTaskIds;
 
-    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
-    private List<Task> createdTasks;
+    public ProductOwner(){
+        this.userRole = UserRole.PRODUCT_OWNER;
+//        this.solvedTasks = new ArrayList<>();
+        this.teamLeadIds = new ArrayList<>();
+    }
 }

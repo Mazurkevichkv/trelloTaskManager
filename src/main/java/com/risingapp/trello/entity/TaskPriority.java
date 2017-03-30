@@ -18,7 +18,6 @@ public class TaskPriority {
     private Long id;
 
     private String priority;
-
-    @OneToMany(mappedBy = "priority", fetch = FetchType.LAZY)
-    private List<Task> tasks;
+    @ElementCollection(targetClass=Long.class)
+    private List<Long> taskIds;
 }

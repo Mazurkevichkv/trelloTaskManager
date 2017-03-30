@@ -16,22 +16,11 @@ public class Task {
     private Long id;
     private String title;
     private String text;
+    private Long creatorId;
+    private Long developerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private ProductOwner creator;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "developer_id")
-    private Developer developer;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "solver_id")
-    private User solver;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "priority_id")
-    private TaskPriority priority;
+    private Long solverId;
+    private Long priorityId;
 
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.CREATED;

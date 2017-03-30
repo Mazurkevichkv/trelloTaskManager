@@ -32,25 +32,25 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
-    @Secured({UserRole.PRODUCT_OWNER})
+//    @Secured({"PRODUCT_OWNER"})
     @RequestMapping(value = "/task/form", method = RequestMethod.POST)
     public ResponseEntity<Void> addTask(@RequestBody AddTaskRequest request) {
         return taskService.addTask(request);
     }
 
-    @Secured({UserRole.PRODUCT_OWNER})
+//    @Secured({UserRole.PRODUCT_OWNER})
     @RequestMapping(value = "/task/file", method = RequestMethod.POST)
     public ResponseEntity<Void> addTask(@RequestParam(value = "file")MultipartFile file) {
         return taskService.addTask(file);
     }
 
-    @Secured({UserRole.PRODUCT_OWNER})
+//    @Secured({UserRole.PRODUCT_OWNER})
     @RequestMapping(value = "/task/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> removeTask(@PathVariable("id") long id) {
         return taskService.deleteTask(id);
     }
 
-    @Secured({UserRole.TEAM_LEAD})
+//    @Secured({UserRole.TEAM_LEAD})
     @RequestMapping(value = "/task/appoint/{task_id}/to/{user_id}")
     public ResponseEntity<Void> appointTask(@PathVariable("task_id") long taskId,
                                             @PathVariable("user_id") long userId) {

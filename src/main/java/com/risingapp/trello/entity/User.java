@@ -9,30 +9,20 @@ import java.util.List;
  * Created by zinoviyzubko on 26.03.17.
  */
 @Data
-@Entity
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(
-        name = "discriminator",
-        discriminatorType = DiscriminatorType.STRING
-)
-@DiscriminatorValue(value = "User")
+@MappedSuperclass
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
-    private String email;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private String birthday;
-    private String registrationDay;
-    private String vkToken;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long id;
+    protected String email;
+    protected String password;
+    protected String firstName;
+    protected String lastName;
+    protected String birthday;
+    protected String registrationDay;
+    protected String vkToken;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
-    private Photo photo;
-
-    @OneToMany(mappedBy = "solver", fetch = FetchType.LAZY)
-    private List<Task> solvedTasks;
+    protected Long photoId;
+    protected UserRole userRole;
 }

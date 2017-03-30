@@ -56,7 +56,7 @@ public class FileProcessor {
                     continue;
                 }
                 Task task = new Task();
-                task.setCreator(owner);
+                task.setCreatorId(owner.getId());
                 task.setText(args[TASK_CONTENT_ID]);
                 taskList.add(task);
             }

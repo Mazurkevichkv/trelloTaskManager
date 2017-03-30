@@ -8,13 +8,12 @@ import com.risingapp.trello.model.response.AddPhotoResponse;
 import com.risingapp.trello.model.response.GetBlackboardResponse;
 import com.risingapp.trello.model.response.GetUserResponse;
 import com.risingapp.trello.model.response.GetUsersResponse;
-import com.risingapp.trello.repository.PhotoRepository;
-import com.risingapp.trello.repository.TaskRepository;
-import com.risingapp.trello.repository.UserRepository;
+import com.risingapp.trello.repository.*;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,10 +31,14 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired private UserRepository userRepository;
+    @Autowired private DeveloperRepository developerRepository;
+    @Autowired private TeamLeadRepository teamLeadRepository;
+    @Autowired private ProductOwnerRepository productOwnerRepository;
+
     @Autowired private SessionService sessionService;
     @Autowired private PhotoRepository photoRepository;
     @Autowired private TaskRepository taskRepository;
+    @Autowired private PrioritiesRepository prioritiesRepository;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private static final String PHOTO_URL = "https://likeittrello.herokuapp.com/rest/photo/";
@@ -51,13 +54,15 @@ public class UserService {
         GetBlackboardResponse response = new GetBlackboardResponse();
         response.setQueue(new ArrayList<>());
         response.setDevelopers(new ArrayList<>());
-        for (User user : userRepository.findAll()) {
-            if (!(user instanceof Developer)) continue;
-            UserResponse userResponse = convertDeveloper(user);
-            response.getDevelopers().add(userResponse);
+        List<Developer> developers = developerRepository.findAll();
+        if (developers != null) {
+            for (Developer developer : developerRepository.findAll()) {
+                UserResponse userResponse = convertDeveloper(developer);
+                response.getDevelopers().add(userResponse);
+            }
         }
         for (Task task : taskRepository.findAll()) {
-            if (task.getDeveloper() != null) continue;
+            if (task.getDeveloperId() != null) continue;
             response.getQueue().add(convertTask(task));
         }
         return response;
@@ -69,11 +74,14 @@ public class UserService {
         userResponse.setId(developer.getId());
         userResponse.setFirstName(developer.getFirstName());
         userResponse.setLastName(developer.getLastName());
-        if (developer.getPhoto() != null)
-            userResponse.setPhotoUrl(developer.getPhoto().getLink());
+        if (developer.getPhotoId() != null) {
+            Photo photo = photoRepository.findOne(developer.getPhotoId());
+            userResponse.setPhotoUrl(photo.getLink());
+        }
         userResponse.setTasks(new ArrayList<>());
-        if (developer.getTasks() != null) {
-            for (Task task : developer.getTasks()) {
+        if (developer.getTaskIds() != null) {
+            for (Long taskId : developer.getTaskIds()) {
+                Task task = taskRepository.findOne(taskId);
                 userResponse.getTasks().add(convertTask(task));
             }
         }
@@ -86,8 +94,10 @@ public class UserService {
         taskResponse.setId(task.getId());
         taskResponse.setTitle(task.getTitle());
         taskResponse.setText(task.getText());
-        if (task.getPriority() != null)
-            taskResponse.setPriority(task.getPriority().getPriority());
+        if (task.getPriorityId() != null) {
+            TaskPriority priority = prioritiesRepository.findOne(task.getPriorityId());
+            taskResponse.setPriority(priority.getPriority());
+        }
         return taskResponse;
     }
 
@@ -101,58 +111,94 @@ public class UserService {
         user.setBirthday(request.getBirthday());
         user.setRegistrationDay(sdf.format(new Date()));
         switch (request.getRole()) {
-            case UserRole.DEVELOPER :
+            case DEVELOPER :
                 Developer developer = (Developer) user;
-                userRepository.save(developer);
+                developerRepository.save(developer);
                 break;
-            case UserRole.PRODUCT_OWNER :
+            case PRODUCT_OWNER :
                 ProductOwner productOwner = (ProductOwner) user;
-                userRepository.save(productOwner);
+                productOwnerRepository.save(productOwner);
                 break;
-            case UserRole.TEAM_LEAD :
+            case TEAM_LEAD :
                 TeamLead teamLead = (TeamLead) user;
-                userRepository.save(teamLead);
+                teamLeadRepository.save(teamLead);
                 break;
         }
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @Transactional
-    public GetUserResponse getUser(long id) {
-        User user = userRepository.findOne(id);
+    public GetUserResponse getUser(long userId) {
+        User user = developerRepository.findOne(userId);
+        if (user == null) {
+            user = productOwnerRepository.findOne(userId);
+            if (user == null) {
+                user = teamLeadRepository.findOne(userId);
+                if (user == null)
+                    return null;
+            }
+        }
         GetUserResponse response = convertUser(user);
         return response;
     }
 
     @Transactional
-    public GetUsersResponse getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public GetUsersResponse getDevelopers() {
+        List<Developer> developers = developerRepository.findAll();
         GetUsersResponse response = new GetUsersResponse();
         response.setUsers(new ArrayList<>());
-        for (User user : users) {
-            response.getUsers().add(convertUser(user));
+        for (Developer developer : developers) {
+            response.getUsers().add(convertUser(developer));
+        }
+        return response;
+    }
+
+    @Transactional
+    public GetUsersResponse getTeamLeads() {
+        List<TeamLead> teamLeads = teamLeadRepository.findAll();
+        GetUsersResponse response = new GetUsersResponse();
+        response.setUsers(new ArrayList<>());
+        for (TeamLead teamLead : teamLeads) {
+            response.getUsers().add(convertUser(teamLead));
+        }
+        return response;
+    }
+
+    @Transactional
+    public GetUsersResponse getProductOwners() {
+        List<ProductOwner> productOwners = productOwnerRepository.findAll();
+        GetUsersResponse response = new GetUsersResponse();
+        response.setUsers(new ArrayList<>());
+        for (ProductOwner productOwner : productOwners) {
+            response.getUsers().add(convertUser(productOwner));
         }
         return response;
     }
 
     private GetUserResponse convertUser(User user) {
         GetUserResponse response = new GetUserResponse();
-        Photo photo = user.getPhoto();
         response.setId(user.getId());
         response.setEmail(user.getEmail());
         response.setFirstName(user.getFirstName());
         response.setLastName(user.getLastName());
         response.setBirthday(user.getBirthday());
-        if (photo != null)
+        if (user.getPhotoId() != null) {
+            Photo photo = photoRepository.findOne(user.getPhotoId());
             response.setPhotoUrl(photo.getLink());
-        if (user instanceof Developer) response.setRole(UserRole.DEVELOPER);
-        if (user instanceof TeamLead) response.setRole(UserRole.TEAM_LEAD);
-        if (user instanceof ProductOwner) response.setRole(UserRole.PRODUCT_OWNER);
+        }
+        response.setRole(user.getUserRole());
         return response;
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        User user = developerRepository.findByEmail(email);
+        if (user == null) {
+            user = productOwnerRepository.findByEmail(email);
+            if (user == null) {
+                user = teamLeadRepository.findByEmail(email);
+            }
+        }
+        return user;
     }
 
     @Transactional
@@ -161,12 +207,25 @@ public class UserService {
         User currentUser = sessionService.getCurrentUser();
         String base64 = Base64.encode(file.getBytes());
         Photo photo = new Photo();
-        photo.setUser(currentUser);
         photo.setBase64(base64);
-        photoRepository.save(photo);
         photo.setLink(PHOTO_URL + currentUser.getId());
-        currentUser.setPhoto(photo);
-        userRepository.save(currentUser);
+        photo.setUserId(currentUser.getId());
+        currentUser.setPhotoId(photo.getId());
+        photoRepository.save(photo);
+        switch (currentUser.getUserRole()) {
+            case DEVELOPER :
+                Developer developer = (Developer) currentUser;
+                developerRepository.save(developer);
+                break;
+            case PRODUCT_OWNER :
+                ProductOwner productOwner = (ProductOwner) currentUser;
+                productOwnerRepository.save(productOwner);
+                break;
+            case TEAM_LEAD :
+                TeamLead teamLead = (TeamLead) currentUser;
+                teamLeadRepository.save(teamLead);
+                break;
+        }
         AddPhotoResponse response = new AddPhotoResponse();
         response.setUrl(photo.getLink());
         return response;
@@ -175,8 +234,16 @@ public class UserService {
     @Transactional
     public ResponseEntity<Void> getPhoto(HttpServletResponse response, long userId) {
         try {
-            User user = userRepository.findOne(userId);
-            Photo photo = user.getPhoto();
+            User user = developerRepository.findOne(userId);
+            if (user == null) {
+                user = productOwnerRepository.findOne(userId);
+                if (user == null) {
+                    user = teamLeadRepository.findOne(userId);
+                    if (user == null)
+                        throw new Exception();
+                }
+            }
+            Photo photo = photoRepository.findOne(user.getPhotoId());
             byte[] bytes = Base64.decode(photo.getBase64());
             response.setContentType("image/png");
             response.getOutputStream().write(bytes);

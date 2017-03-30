@@ -30,18 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(username + " not found");
         }
         Set<GrantedAuthority> roles = new HashSet<>();
-        if (user instanceof Developer) {
-            roles.add(new SimpleGrantedAuthority(UserRole.DEVELOPER));
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
-        }
-        if (user instanceof ProductOwner) {
-            roles.add(new SimpleGrantedAuthority(UserRole.PRODUCT_OWNER));
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
-        }
-        if (user instanceof TeamLead) {
-            roles.add(new SimpleGrantedAuthority(UserRole.TEAM_LEAD));
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
-        }
-        return null;
+        roles.add(new SimpleGrantedAuthority(user.getUserRole().toString()));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
     }
 }

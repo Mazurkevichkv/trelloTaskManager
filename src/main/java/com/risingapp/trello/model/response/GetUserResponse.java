@@ -1,5 +1,6 @@
 package com.risingapp.trello.model.response;
 
+import com.risingapp.trello.entity.UserRole;
 import lombok.Data;
 
 /**
@@ -15,5 +16,5 @@ public class GetUserResponse {
     private String photoUrl;
     private String birthday;
     private String registrationDay;
-    private String role;
+    private UserRole role;
 }

@@ -18,8 +18,5 @@ public class Photo {
     @Column(columnDefinition="TEXT")
     private String base64;
     private String link;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 }

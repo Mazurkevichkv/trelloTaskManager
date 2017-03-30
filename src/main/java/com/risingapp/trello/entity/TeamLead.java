@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,14 +13,17 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "users")
-@DiscriminatorValue(value = UserRole.TEAM_LEAD)
+@Table(name = "team_leads")
 public class TeamLead extends User {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productOwner_id")
-    private ProductOwner productOwner;
+    private Long productOwnerId;
+    @Column
+    @ElementCollection(targetClass=Integer.class)
+    private List<Long> developerIds;
 
-    @OneToMany(mappedBy = "teamLead", fetch = FetchType.LAZY)
-    private List<Developer> developers;
+    public TeamLead(){
+        this.userRole = UserRole.TEAM_LEAD;
+        this.developerIds = new ArrayList<>();
+//        this.solvedTasks = new ArrayList<>();
+    }
 }
