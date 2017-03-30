@@ -32,10 +32,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-//                    .antMatchers("/**").permitAll()
-//                    .antMatchers("/rest/**").permitAll()
+                .antMatchers("/home").authenticated()
                 .antMatchers("/rest/**").authenticated()
-//                    .antMatchers("/rest/**").hasAnyRole(UserRole.PRODUCT_OWNER, UserRole.TEAM_LEAD, UserRole.DEVELOPER)
                 .and()
                     .exceptionHandling().accessDeniedPage("/unauthorized")
                 .and()

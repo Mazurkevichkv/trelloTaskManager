@@ -11,7 +11,7 @@ public class FrontendController {
 
     @RequestMapping(value = "/home")
     public String getIndex() {
-        return "index.html";
+        return "inde.html";
     }
 
     @RequestMapping(value = "/registration")
