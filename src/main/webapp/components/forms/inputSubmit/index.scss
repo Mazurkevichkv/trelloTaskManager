@@ -1,0 +1,23 @@
+.inputSubmit {
+  display: inline-block;
+  
+  &-el {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: #00bcd4;
+    color: #fff;
+    
+    transition: all .2s ease-out;
+
+    &:hover {
+      background-color: #4293b2;
+    }
+
+    &:active {
+      background-color: #205080;
+    }
+  }
+}
+  
+  

@@ -9,23 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class FrontendController {
 
-    @RequestMapping(value = "/index")
+    @RequestMapping(value = "/home")
     public String getIndex() {
-        return "main.html";
+        return "inde.html";
     }
 
-    @RequestMapping(value = "/welcome")
+    @RequestMapping(value = "/registration")
+    public String getRegister() {
+        return "register.html";
+    }
+
+    @RequestMapping(value = "/login")
     public String getWelcome() {
-        return "login.html";
-    }
-
-    @RequestMapping(value = "/first")
-    public String getTest() {
-        return "test.html";
-    }
-
-    @RequestMapping(value = "/addfile")
-    public String getAddFile() {
-        return "addfile.html";
+        return "welcome.html";
     }
 }
