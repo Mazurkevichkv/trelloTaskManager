@@ -23,7 +23,7 @@ var stylelint = require("gulp-stylelint");
 /* SCRIPTS */
 var named = require("vinyl-named");
 var webpack = require("gulp-webpack");
-var webpack2 = require("webpack");
+//var webpack2 = require("webpack");
 
 /* ASSETS */
 var imagemin = require("gulp-imagemin");
@@ -142,12 +142,9 @@ function taskJs() {
                     {
                         test: /\.js$/,
                         exclude: /(node_modules|bower_components)/,
-                        use: {
-                            loader: 'babel-loader',
-                            options: {
-                                presets: ["es2015"],
-                                plugins: ["transform-runtime"]
-                            }
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ["es2015"],
                         }
                     }
                 ]
@@ -156,7 +153,7 @@ function taskJs() {
                 libraryTarget: 'var',
                 library: 'App'
             }
-        }, webpack2))
+        }))
         .pipe(gulp.dest("./src/main/resources/public/scripts/"))
 }
 
