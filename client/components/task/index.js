@@ -1,5 +1,6 @@
 import {Permission} from '../../scripts/utils/Permission'
 import {TaskList} from "../taskList/index";
+import {Request} from "../../scripts/utils/Request";
 class Task {
     constructor(context, options) {
         this.context = context;
@@ -140,6 +141,9 @@ class Task {
 
 Task.defaults = {
     draggable: true,
+    task: {
+        status: "CREATED",
+    },
     onDragStart: function () {},
     onDragOver: function () {},
     onDrop: function () {}

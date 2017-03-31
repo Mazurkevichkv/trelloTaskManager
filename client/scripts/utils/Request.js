@@ -72,7 +72,7 @@ class Request {
             };
 
             if(contentType === "application-json") {
-                xhr.send(JSON.stringify(data));
+                xhr.send(data);
             }
             else {
                 xhr.send(queryString);
