@@ -13,7 +13,6 @@ class TaskList {
 
         this.setTitle();
         this.initElements();
-        
     }
 
     static createTaskList(options) {
@@ -24,11 +23,11 @@ class TaskList {
         return taskList;
     }
 
-    static createTitle () {
-        const title = document.createElement('h2');
-        title.className = TaskList.classes.title;
-        title.innerHTML = TaskList.defaults.firstName;
-        return title;
+    static createTitle (title) {
+        const titleElement = document.createElement('h2');
+        titleElement.className = TaskList.classes.title;
+        titleElement.innerHTML = title;
+        return titleElement;
     }
 
     initElements() {
@@ -36,13 +35,16 @@ class TaskList {
         for(let item in this.options.tasks) {
             if(!this.options.tasks.hasOwnProperty(item)) continue;
             
-            this.context.appendChild( Task.createElement(index) );
-            this.elements[item] = new Task(document.querySelector(`#task${index++}`), {task: TaskList.defaults.tasks[item]});
+            let task = Task.createElement(index);
+            this.context.appendChild(task);
+            this.elements[item] = new Task(task, {
+                task: this.options.tasks[item]
+            });
         }
     }
 
     setTitle() {
-        this.context.appendChild(TaskList.createTitle());
+        this.context.appendChild(TaskList.createTitle(`${this.options.firstName} ${this.options.lastName}`));
     }
 }
 
