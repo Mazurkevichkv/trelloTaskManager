@@ -204,7 +204,7 @@ function taskWatch() {
     gulp.watch("./client/**/*.{sass,scss}", taskSass);
 
     /* SCRIPTS */
-    //gulp.watch("./client/scripts/**/*.js", taskJs);
+    gulp.watch("./client/**/*.js", taskJs);
     //There is no need to do this because of webpack watcher
     
     

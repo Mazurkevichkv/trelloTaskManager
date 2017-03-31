@@ -1,4 +1,5 @@
 import {Task} from "../task/index";
+import {Permission} from "../../scripts/utils/Permission";
 
 class TaskList {
     constructor(context, options) {
@@ -38,13 +39,14 @@ class TaskList {
             let task = Task.createElement(index);
             this.context.appendChild(task);
             this.elements[item] = new Task(task, {
-                task: this.options.tasks[item]
+                task: this.options.tasks[item],
+                draggable: Permission.isTeamLead()
             });
         }
     }
 
     setTitle() {
-        this.context.appendChild(TaskList.createTitle(`${this.options.firstName} ${this.options.lastName}`));
+        this.context.appendChild(TaskList.createTitle(this.options.firstName));
     }
 }
 
