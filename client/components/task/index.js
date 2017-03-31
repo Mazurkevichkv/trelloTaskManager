@@ -17,7 +17,7 @@ class Task {
         }
         this.initElements();
         this.initHandlers();
-
+        
         if(this.options.draggable) {
             this.elements.root.setAttribute("draggable", "true");
         }

@@ -9,7 +9,6 @@ class IndexPage {
         this.permissionsMap = new Permission();
         
         this.addTaskBtn = document.querySelector(".button--addTask");
-        this.addTaskBtn.hidden = true;
         
         this.permissionsMap.getUserRole().then(()=> {
             this.addTaskPopup = new Popup(document.querySelector(".popup--addTask"));
