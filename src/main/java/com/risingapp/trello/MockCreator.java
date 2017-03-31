@@ -114,6 +114,7 @@ public class MockCreator {
         teamLead1.setProductOwnerId(productOwner.getId());
         teamLead1.setUserRole(UserRole.TEAM_LEAD);
         teamLead1.setDeveloperIds(new ArrayList<>());
+        teamLeadRepository.save(teamLead1);
 
         teamLead2 = new TeamLead();
         teamLead2.setEmail("teamLead2@gmail.com");
@@ -124,6 +125,7 @@ public class MockCreator {
         teamLead2.setProductOwnerId(productOwner.getId());
         teamLead2.setUserRole(UserRole.TEAM_LEAD);
         teamLead2.setDeveloperIds(new ArrayList<>());
+        teamLeadRepository.save(teamLead2);
     }
 
     private void createDevelopers() {
