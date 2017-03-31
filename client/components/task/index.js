@@ -159,6 +159,8 @@ class Task {
     }
 }
 
+Task.elements = {};
+
 Task.defaults = {
     draggable: true,
     task: {
