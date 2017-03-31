@@ -43,8 +43,11 @@ class Board {
         let index = 1;
         for(let item in boards) {
             if(!boards.hasOwnProperty(item)) continue;
+
+            let bl = Board.createBoardList(index);
             
-            this.board.main.appendChild( Board.createBoardList(index) );
+            this.board.main.appendChild(bl);
+            console.log(this.board.main, bl);
             this.elements[item] = new TaskList(document.querySelector(`#${Board.classes.list}${index}`), { 
                 tasks: boards[item].tasks, 
                 firstName: boards[item].firstName, 
