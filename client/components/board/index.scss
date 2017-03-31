@@ -1,6 +1,7 @@
 .board {
   display: flex;
   flex-direction: row;
+  flex: 1 1 auto;
 
   &-queue {
     flex: 0 0 auto;

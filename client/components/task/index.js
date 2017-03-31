@@ -1,4 +1,5 @@
 import {Permission} from '../../scripts/utils/Permission'
+import {TaskList} from "../taskList/index";
 class Task {
     constructor(context, options) {
         this.context = context;
@@ -17,7 +18,7 @@ class Task {
         }
         this.initElements();
         this.initHandlers();
-
+        
         if(this.options.draggable) {
             this.elements.root.setAttribute("draggable", "true");
         }
@@ -66,7 +67,6 @@ class Task {
                 console.log(item + " is not found.");
             }
         }
-
     }
     
     changeStatus() {
@@ -79,7 +79,14 @@ class Task {
         }
         document.addEventListener("dragstart", this.dragStartHandler);
         document.addEventListener("dragover", this.dragOverHandler);
+        document.addEventListener("dragleave", this.dragLeaveHandler);
         document.addEventListener("drop", this.dropHandler);
+        
+        this.elements.taskCheck.addEventListener("click", this.taskCheckClickHandler.bind(this));
+    }
+
+    taskCheckClickHandler() {
+        this.elements.root.classList.add("task--isDone");
     }
     
     dragStartHandler(e) {
@@ -88,6 +95,20 @@ class Task {
 
     dragOverHandler(e) {
         e.preventDefault();
+        
+        const container = Task.findContainer(e.target);
+        if (!container) return;
+        
+        container.parentNode.classList.add(TaskList.modifiers.root.isDropable);
+    }
+
+    dragLeaveHandler(e) {
+        e.preventDefault();
+
+        const container = Task.findContainer(e.target);
+        if (!container) return;
+
+        container.parentNode.classList.remove(TaskList.modifiers.root.isDropable);
     }
     
     dropHandler(e) {
@@ -95,12 +116,13 @@ class Task {
         if (!container) return;
         e.preventDefault();
         var data = e.dataTransfer.getData("text");
+        container.parentNode.classList.remove(TaskList.modifiers.root.isDropable);
         container.appendChild(document.getElementById(data));
     }
 
     static findContainer (el) {
         if (el === null) return;
-        return el.className === 'taskList-queue' ? el : Task.findContainer(el.parentElement);
+        return el.classList.contains(TaskList.classes.queue) ? el : Task.findContainer(el.parentElement);
     }
 }
 

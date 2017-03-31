@@ -6,28 +6,32 @@
   width: 260px;
   border-radius: 3px;
   cursor: pointer;
-
-  &:hover {
-    .task-check {
-      opacity: 1;
-      transition: $fade-transition;
-    }
+  transition: $fade-transition;
+  
+  &--isDone {
+    
   }
 
-  transition: $fade-transition;
+  &:hover {
+    
+  }
 
   &-title {
     color: $light-black;
     font-weight: 400;
     font-size: 18px;
-    margin: 0 0 16px;
+    margin: 0;
   }
   
   &-description {
     color: $grey;
     font-size: 16px;
     line-height: 1.5;
-    margin-top: 0;
+    margin: 16px 0 0;
+  }
+
+  &--isDone &-description {
+    display: none;
   }
 
   &-check {
@@ -52,6 +56,10 @@
       background-image: svg-load("assets/svg/checkmark.svg", fill=$blue);
       //border-color: $blue;
     }
+  }
+
+  &--isDone &-check {
+    opacity: 1;
   }
 
   &:hover &-check {

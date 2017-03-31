@@ -10,14 +10,44 @@
   }
   
   &-logo {
+    flex: 0 0 auto;
     margin-right: 16px;
   }
   
   &-title {
+    flex: 0 0 auto;
     font-size: 32px;
   }
 
   &-addTask {
+    flex: 1 1 auto;
     margin-left: 32px;
+  }
+  
+  &-logOut {
+    flex: 0 0 auto;
+  }
+
+  &-logOutBtn {
+    height: 45px;
+    padding: 0 16px;
+    border-radius: 3px;
+    border: none;
+    transition: $fade-transition;
+    outline: none;
+    cursor: pointer;
+    background-color: $base-grey;
+
+    
+    display: inline-block;
+    line-height: 45px;
+    text-align: center;
+    
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $grey;
+    }
   }
 }

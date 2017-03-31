@@ -9,11 +9,10 @@ class IndexPage {
         this.permissionsMap = new Permission();
         
         this.addTaskBtn = document.querySelector(".button--addTask");
-        this.addTaskBtn.hidden = true;
         
         this.permissionsMap.getUserRole().then(()=> {
             this.addTaskPopup = new Popup(document.querySelector(".popup--addTask"));
-            this.addTaskForm = new FormAddTask();
+            this.addTaskForm = new FormAddTask({}, this.addTaskPopup.close);
 
             this.board = new Board(document.querySelector(".board"));
 
@@ -40,10 +39,12 @@ class IndexPage {
 }
 
 class FormAddTask extends Form {
-    constructor(options) {
+    constructor(options, popupClose) {
         super(document.querySelector(".form--addTask"), options);
         
-        this.request = new Request("/rest/task/add", "GET");
+        this.request = new Request("/rest/task/form", "GET");
+        
+        this.popupClose = popupClose;
     }
     
     getData() {
@@ -58,6 +59,7 @@ class FormAddTask extends Form {
         this.request.send(this.getData())
             .then((response) => {
                 console.log(response);
+                this.popupClose();
             })
             .catch((error) => {
                 console.log("Error: " + error);

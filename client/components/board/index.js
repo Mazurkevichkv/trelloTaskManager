@@ -32,32 +32,37 @@ class Board {
                 console.log(response);
                 this.queue = response.queue;
                 this.tasksLists = response.developers;
-                this.initQueue();
-                this.initElements();
+                this.initQueue(response.queue);
+                this.initElements(response.developers);
             }).catch((error) => {
                 console.log("Error: " + error);
             })
             
     }
 
-    initElements() {
-        let index = 1;
-        for(let item in this.tasksLists) {
-            if(!this.tasksLists.hasOwnProperty(item)) continue;
+    initElements(boards) {
+        for(let item in boards) {
+            if(!boards.hasOwnProperty(item)) continue;
             
-            this.board.main.appendChild( Board.createBoardList(index) );
-            this.elements[item] = new TaskList(document.querySelector(`#${Board.classes.list}${index}`), { 
-                tasks: this.tasksLists[item].tasks, 
-                firstName: this.tasksLists[item].firstName, 
-                index: index++
+            let bl = Board.createBoardList(Board.index);
+            
+            this.board.main.appendChild(bl);
+            
+            this.elements[item] = new TaskList(bl, {
+                tasks: boards[item].tasks, 
+                firstName: boards[item].firstName, 
+                index: Board.index
             });
+
+            Board.index++;
         }
     }
 
-    initQueue () {
+    initQueue (tasks) {
         this.elements[0] = new TaskList(this.board.queue, {
-            tasks: this.queue, 
-            firstName: 'Queue', index: 0
+            tasks: tasks, 
+            firstName: 'Queue',
+            index: 0
         });
     }
 
@@ -72,6 +77,8 @@ class Board {
         }
     }
 }
+
+Board.index = 1;
 
 Board.defaults = {
 

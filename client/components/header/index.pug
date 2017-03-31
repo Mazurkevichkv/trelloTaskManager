@@ -12,4 +12,7 @@ mixin header(data)
             .header-addTask
                 +button({
                     title: "Add tasks +"
-                }).button--addTask
+                })(hidden).button--addTask
+                
+            .header-logOut
+                a(href="/logout").header-logOutBtn Log out

@@ -56,6 +56,14 @@ class Request {
                         reject(xhr.responseText, xhr);
                     }
                     
+                    try {
+                        resolve(JSON.parse(xhr.responseText), xhr);
+                        return;
+                    }
+                    catch (e) {
+                        
+                    }
+
                     resolve(xhr.responseText, xhr);
                 }
                 

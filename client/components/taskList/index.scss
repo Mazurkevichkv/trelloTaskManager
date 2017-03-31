@@ -2,8 +2,17 @@
   height: auto;
   flex-direction: column;
   display: flex;
+  flex: 1 1 auto;
+  border-radius: 3px;
+  padding: 16px;
 
   min-width: 324px;
+  
+  transition: $fade-transition;
+  
+  &--isDropable {
+    background-color: rgba($blue, 0.06);
+  }
 
   &-title {
     flex: 0 0 auto;
@@ -16,6 +25,5 @@
     flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 16px;
   }
 }
