@@ -20,7 +20,6 @@ class RegistrationForm extends Form {
     }
 
     submitHandler(e) {
-        e.preventDefault();
         console.log("RegistrationForm submitting!");
     }
 }
