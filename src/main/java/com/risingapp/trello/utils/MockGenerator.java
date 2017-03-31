@@ -127,6 +127,7 @@ public class MockGenerator {
         TaskPriority randomPriority = priorities.get((new Random().nextInt(priorities.size())));
         task.setPriorityId(randomPriority.getId());
         task.setCreatorId(owner.getId());
+        task.setStatus(TaskStatus.IN_PROGRESS);
         if (developer != -1) {
             task.setDeveloperId(developer);
         }

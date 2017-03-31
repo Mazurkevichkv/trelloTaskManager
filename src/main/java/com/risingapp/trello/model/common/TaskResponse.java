@@ -1,5 +1,6 @@
 package com.risingapp.trello.model.common;
 
+import com.risingapp.trello.entity.TaskStatus;
 import lombok.Data;
 
 /**
@@ -12,4 +13,5 @@ public class TaskResponse {
     private String title;
     private String text;
     private String priority;
+    private TaskStatus status;
 }

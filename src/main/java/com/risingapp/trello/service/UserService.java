@@ -98,6 +98,7 @@ public class UserService {
             TaskPriority priority = prioritiesRepository.findOne(task.getPriorityId());
             taskResponse.setPriority(priority.getPriority());
         }
+        taskResponse.setStatus(task.getStatus());
         return taskResponse;
     }
 
