@@ -29,10 +29,11 @@ class Board {
         
         request.send()
             .then((response) => {
-                 this.queue = response.queue;
-                 this.tasksLists = response.developers;
-                 this.initQueue();
-                 this.initElements();
+                console.log(response);
+                this.queue = response.queue;
+                this.tasksLists = response.developers;
+                this.initQueue();
+                this.initElements();
             }).catch((error) => {
                 console.log("Error: " + error);
             })
