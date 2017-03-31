@@ -73,6 +73,8 @@ class Request {
 
             let reqData;
 
+            console.log(contentType);
+
             if(contentType === "application-json") {
                 reqData = JSON.stringify(data);
             }
