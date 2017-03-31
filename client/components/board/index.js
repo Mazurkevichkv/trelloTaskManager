@@ -32,11 +32,13 @@ class Board {
                 console.log(response);
                 this.queue = response.queue;
                 this.tasksLists = response.developers;
-                this.initQueue(response.queue);
-                this.initElements(response.developers);
             }).catch((error) => {
-                console.log("Error: " + error);
-            })
+            console.log("Error: " + error);
+            }).then(() => {
+                this.initQueue(this.queue);
+                this.initElements(this.tasksLists);
+            });
+
             
     }
 
