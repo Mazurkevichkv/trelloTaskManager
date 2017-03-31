@@ -57,7 +57,7 @@ public class TaskController {
         return taskService.appointTask(userId, taskId);
     }
 
-    @RequestMapping(value = "/task/unappoint/{task_id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/task/unappoint/{task_id}")
     public ResponseEntity<Void> unappointTask(@PathVariable("task_id") long taskId) {
         return taskService.unappointTask(taskId);
     }
