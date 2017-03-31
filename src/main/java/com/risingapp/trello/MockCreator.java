@@ -51,7 +51,7 @@ public class MockCreator {
     private void init() {
 
 
-//        mockGenerator.mockDb();
+        mockGenerator.mockDb();
 
 //        createTaskPriority();
 //        createProductOwner();

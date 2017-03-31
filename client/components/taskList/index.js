@@ -20,6 +20,10 @@ class TaskList {
         this.initElements();
     }
 
+    static addTask(data) {
+
+    }
+
     static createTaskList(options) {
         const taskList = document.createElement('div');
         taskList.className = TaskList.classes.root;
