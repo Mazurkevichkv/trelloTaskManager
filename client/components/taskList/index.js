@@ -43,11 +43,10 @@ class TaskList {
     }
 
     initElements() {
-        let index = 1;
         for(let item in this.options.tasks) {
             if(!this.options.tasks.hasOwnProperty(item)) continue;
             
-            let task = Task.createElement(index);
+            let task = Task.createElement(TaskList.index++);
             this.elements.queue.appendChild(task);
             
             this.elements[item] = new Task(task, {
@@ -57,6 +56,8 @@ class TaskList {
         }
     }
 }
+
+TaskList.index = 1;
 
 TaskList.classes = {
     root: "taskList",

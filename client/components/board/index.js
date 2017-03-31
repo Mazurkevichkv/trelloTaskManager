@@ -41,21 +41,20 @@ class Board {
     }
 
     initElements(boards) {
-        let index = 1;
         for(let item in boards) {
             if(!boards.hasOwnProperty(item)) continue;
             
-            let bl = Board.createBoardList(index);
+            let bl = Board.createBoardList(Board.index);
             
             this.board.main.appendChild(bl);
-
-            console.log(this.board.main, bl);
             
-            this.elements[item] = new TaskList(document.querySelector(`#${Board.classes.list}${index}`), { 
+            this.elements[item] = new TaskList(bl, {
                 tasks: boards[item].tasks, 
                 firstName: boards[item].firstName, 
-                index: index++
+                index: Board.index
             });
+
+            Board.index++;
         }
     }
 
@@ -78,6 +77,8 @@ class Board {
         }
     }
 }
+
+Board.index = 1;
 
 Board.defaults = {
 
