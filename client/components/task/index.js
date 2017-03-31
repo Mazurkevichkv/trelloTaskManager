@@ -94,7 +94,7 @@ class Task {
         const container = Task.findContainer(e.target);
         if (!container) return;
         
-        container.classList.add(TaskList.modifiers.isDropable);
+        container.classList.add(TaskList.modifiers.root.isDropable);
     }
 
     dragLeaveHandler(e) {
@@ -103,7 +103,7 @@ class Task {
         const container = Task.findContainer(e.target);
         if (!container) return;
 
-        container.classList.remove(TaskList.modifiers.isDropable);
+        container.classList.remove(TaskList.modifiers.root.isDropable);
     }
     
     dropHandler(e) {
@@ -116,7 +116,7 @@ class Task {
 
     static findContainer (el) {
         if (el === null) return;
-        return el.className === 'taskList-queue' ? el : Task.findContainer(el.parentElement);
+        return el.classList.contains(TaskList.classes.queue) ? el : Task.findContainer(el.parentElement);
     }
 }
 
