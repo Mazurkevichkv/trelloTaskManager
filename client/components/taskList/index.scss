@@ -3,8 +3,13 @@
   flex-direction: column;
   display: flex;
   flex: 1 1 auto;
+  border-radius: 3px;
 
   min-width: 324px;
+  
+  &--isDropable {
+    background-color: rgba($blue, 0.1);
+  }
 
   &-title {
     flex: 0 0 auto;

@@ -79,6 +79,7 @@ class Task {
         }
         document.addEventListener("dragstart", this.dragStartHandler);
         document.addEventListener("dragover", this.dragOverHandler);
+        document.addEventListener("dragleave", this.dragLeaveHandler);
         document.addEventListener("drop", this.dropHandler);
     }
     
@@ -88,6 +89,20 @@ class Task {
 
     dragOverHandler(e) {
         e.preventDefault();
+        
+        const container = Task.findContainer(e.target);
+        if (!container) return;
+        
+        container.classList.add(TaskList.modifiers.isDropable);
+    }
+
+    dragLeaveHandler(e) {
+        e.preventDefault();
+
+        const container = Task.findContainer(e.target);
+        if (!container) return;
+
+        container.classList.remove(TaskList.modifiers.isDropable);
     }
     
     dropHandler(e) {

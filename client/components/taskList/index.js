@@ -65,6 +65,11 @@ TaskList.classes = {
     queue: "taskList-queue"
 };
 
+TaskList.modifiers = {
+    root: {
+        isDropable: "taskList--isDropable"
+    }
+};
 
 TaskList.defaults = {
 
