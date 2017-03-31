@@ -1,6 +1,7 @@
 import {Request} from "./Request";
 class Permission {
     constructor() {
+        
     }
 
     static run() {
@@ -29,12 +30,8 @@ class Permission {
 
     getUserRole () {
         const request = new Request("/rest/user/current", "GET");
-        let mock = {
-            id: 1,
-            userRole: 'PRODUCT_OWNER'
-        };
 
-        return Promise.resolve(mock).then((response) => {
+        return request.send().then((response) => {
             Permission.userRole = response.userRole;
             console.log(response);
         });
