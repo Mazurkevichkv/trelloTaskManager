@@ -42,7 +42,9 @@ class FormAddTask extends Form {
     constructor(options, popupClose) {
         super(document.querySelector(".form--addTask"), options);
         
-        this.request = new Request("/rest/task/form", "GET");
+        this.request = new Request("/rest/task/form", "GET", {
+            "Content-type": "application/json"
+        });
         
         this.popupClose = popupClose;
     }
