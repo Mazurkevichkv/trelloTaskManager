@@ -9,13 +9,14 @@ class TaskList {
 
         this.elements.root = TaskList.createTaskList(options);
         this.elements.queue = TaskList.createTaskQueue();
+        this.elements.title = TaskList.createTitle(this.options.firstName);
 
+        this.elements.root.appendChild(this.elements.title);
         this.elements.root.appendChild(this.elements.queue);
         context.appendChild(this.elements.root);
 
         this.context = this.elements.root;
-                
-        this.setTitle();
+        
         this.initElements();
     }
 
@@ -54,10 +55,6 @@ class TaskList {
                 draggable: Permission.isTeamLead
             });
         }
-    }
-
-    setTitle() {
-        this.context.appendChild(TaskList.createTitle(this.options.firstName));
     }
 }
 
