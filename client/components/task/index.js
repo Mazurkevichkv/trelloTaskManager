@@ -94,7 +94,7 @@ class Task {
         const container = Task.findContainer(e.target);
         if (!container) return;
         
-        container.classList.add(TaskList.modifiers.root.isDropable);
+        container.parentNode.classList.add(TaskList.modifiers.root.isDropable);
     }
 
     dragLeaveHandler(e) {
@@ -103,7 +103,7 @@ class Task {
         const container = Task.findContainer(e.target);
         if (!container) return;
 
-        container.classList.remove(TaskList.modifiers.root.isDropable);
+        container.parentNode.classList.remove(TaskList.modifiers.root.isDropable);
     }
     
     dropHandler(e) {
@@ -111,6 +111,7 @@ class Task {
         if (!container) return;
         e.preventDefault();
         var data = e.dataTransfer.getData("text");
+        container.parentNode.classList.remove(TaskList.modifiers.root.isDropable);
         container.appendChild(document.getElementById(data));
     }
 
