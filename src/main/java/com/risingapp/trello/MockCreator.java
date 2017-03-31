@@ -40,6 +40,8 @@ public class MockCreator {
     private Task task2;
     private Task task3;
     private Task task4;
+    private Task task5;
+    private Task task6;
 
     private TaskPriority priority1;
     private TaskPriority priority2;
@@ -205,5 +207,21 @@ public class MockCreator {
         task4.setPriorityId(priority1.getId());
         taskRepository.save(task4);
         productOwner.getCreatedTaskIds().add(task4.getId());
+
+        task5 = new Task();
+        task5.setTitle("Task title №5" );
+        task5.setText("Task text №5");
+        task5.setCreatorId(productOwner.getId());
+        task5.setPriorityId(priority2.getId());
+        taskRepository.save(task5);
+        productOwner.getCreatedTaskIds().add(task5.getId());
+
+        task6 = new Task();
+        task6.setTitle("Task title №6" );
+        task6.setText("Task text №6");
+        task6.setCreatorId(productOwner.getId());
+        task6.setPriorityId(priority3.getId());
+        taskRepository.save(task6);
+        productOwner.getCreatedTaskIds().add(task6.getId());
     }
 }

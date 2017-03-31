@@ -7,19 +7,17 @@ import {Permission} from "./utils/Permission";
 class IndexPage {
     constructor() {
         this.permissionsMap = new Permission();
-
+        
         this.addTaskBtn = document.querySelector(".button--addTask");
         this.addTaskBtn.hidden = true;
         
         this.permissionsMap.getUserRole().then(()=> {
             this.addTaskPopup = new Popup(document.querySelector(".popup--addTask"));
-            
-
             this.addTaskForm = new FormAddTask();
 
             this.board = new Board(document.querySelector(".board"));
 
-            if (!Permission.isProductOwner) {
+            if (Permission.isProductOwner) {
                 this.addTaskBtn.hidden = false;
                 this.addTaskBtn.addEventListener("click", this.addTaskBtnClickHandler.bind(this));
             }

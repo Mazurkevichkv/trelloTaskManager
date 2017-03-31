@@ -42,7 +42,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                         .loginPage("/login")
                         .loginProcessingUrl("/login_check")
                         .defaultSuccessUrl("/home")
-                        .failureUrl("/welcome?error")
+                        .failureUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .permitAll()
@@ -50,7 +50,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                     .logout()
                     .permitAll()
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/welcome")
+                    .logoutSuccessUrl("/login")
                     .invalidateHttpSession(true);
     }
 
