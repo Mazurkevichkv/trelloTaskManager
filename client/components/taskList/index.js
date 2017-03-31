@@ -50,6 +50,8 @@ class TaskList {
             let task = Task.createElement(TaskList.index++);
             this.elements.queue.appendChild(task);
 
+            console.log(item, this.options.tasks[item].id);
+
             Task.elements[this.options.tasks[item].id] = new Task(task, {
                 task: this.options.tasks[item],
                 draggable: Permission.isTeamLead,
