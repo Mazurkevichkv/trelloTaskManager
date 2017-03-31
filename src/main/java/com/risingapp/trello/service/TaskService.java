@@ -120,6 +120,19 @@ public class TaskService {
     }
 
     @Transactional
+    public ResponseEntity<Void> unappointTask(long taskId) {
+
+        Task task = taskRepository.findOne(taskId);
+        Developer developer = developerRepository.findOne(task.getDeveloperId());
+        developer.getTaskIds().remove(new Long(taskId));
+        task.setDeveloperId(null);
+        task.setStatus(TaskStatus.CREATED);
+        taskRepository.save(task);
+        developerRepository.save(developer);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @Transactional
     public ResponseEntity<Void> approvedTask(long taskId) {
 
         User currentUser = sessionService.getCurrentUser();
