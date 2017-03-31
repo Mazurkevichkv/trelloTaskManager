@@ -22,6 +22,12 @@ class Task {
         if(this.options.draggable) {
             this.elements.root.setAttribute("draggable", "true");
         }
+
+        this.doneRequest = new Request(`/rest/task/approved/${this.options.task.id}`, "POST");
+
+        if(this.options.item.status !== "CREATED") {
+            this.elements.root.classList.add("task--isDone");
+        }
     }
 
     static createElement (index) {
@@ -70,23 +76,27 @@ class Task {
     }
     
     changeStatus() {
-        
+
     }
 
     initHandlers() {
-        if (!Permission.isTeamLead) {
-            return;
+        if(this.options.item.status !== "CREATED") {
+            this.elements.taskCheck.addEventListener("click", this.taskCheckClickHandler.bind(this));
         }
-        document.addEventListener("dragstart", this.dragStartHandler);
-        document.addEventListener("dragover", this.dragOverHandler);
-        document.addEventListener("dragleave", this.dragLeaveHandler);
-        document.addEventListener("drop", this.dropHandler);
-        
-        this.elements.taskCheck.addEventListener("click", this.taskCheckClickHandler.bind(this));
+
+        if (Permission.isTeamLead) {
+            document.addEventListener("dragstart", this.dragStartHandler);
+            document.addEventListener("dragover", this.dragOverHandler);
+            document.addEventListener("dragleave", this.dragLeaveHandler);
+            document.addEventListener("drop", this.dropHandler);
+        }
     }
 
     taskCheckClickHandler() {
-        this.elements.root.classList.add("task--isDone");
+        this.doneRequest.send().then(()=>{
+            this.elements.root.classList.add("task--isDone");
+            this.elements.taskCheck.removeEventListener("click", this.taskCheckClickHandler.bind(this));
+        })
     }
     
     dragStartHandler(e) {
