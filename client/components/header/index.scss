@@ -20,7 +20,6 @@
   }
 
   &-addTask {
-
     flex: 1 1 auto;
     margin-left: 32px;
   }
@@ -31,14 +30,21 @@
 
   &-logOut {
     height: 45px;
-    width: 160px;
+    padding: 0 16px;
     border-radius: 3px;
     border: none;
-    color: white;
     transition: $fade-transition;
     outline: none;
     cursor: pointer;
     background-color: $base-grey;
+
+    
+    display: inline-block;
+    line-height: 45px;
+    text-align: center;
+    
+    color: inherit;
+    text-decoration: none;
 
     &:hover {
       background-color: $grey;
