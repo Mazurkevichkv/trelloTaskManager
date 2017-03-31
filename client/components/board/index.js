@@ -30,6 +30,9 @@ class Board {
         request.send()
             .then((response) => {
                 console.log(response);
+                this.queue = response.queue;
+                debugger;
+                this.tasksLists = response.developers;
                 this.initQueue(response.queue);
                 this.initElements(response.developers);
             }).catch((error) => {
@@ -39,14 +42,16 @@ class Board {
     }
 
     initElements(boards) {
-        this.tasksLists = boards;
         let index = 1;
         for(let item in boards) {
             if(!boards.hasOwnProperty(item)) continue;
 
+            debugger;
             let bl = Board.createBoardList(index);
             
             this.board.main.appendChild(bl);
+
+            debugger;
             console.log(this.board.main, bl);
             this.elements[item] = new TaskList(document.querySelector(`#${Board.classes.list}${index}`), { 
                 tasks: boards[item].tasks, 
@@ -57,7 +62,6 @@ class Board {
     }
 
     initQueue (tasks) {
-        this.queue = tasks;
         this.elements[0] = new TaskList(this.board.queue, {
             tasks: tasks, 
             firstName: 'Queue',
