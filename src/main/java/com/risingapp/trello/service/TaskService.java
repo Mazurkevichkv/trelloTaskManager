@@ -42,6 +42,7 @@ public class TaskService {
         if (priority == null) {
             priority = new TaskPriority();
             priority.setPriority(request.getPriority());
+            prioritiesRepository.save(priority);
         }
         Task task = new Task();
         task.setTitle(request.getTitle());
