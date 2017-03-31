@@ -114,8 +114,11 @@ public class TaskService {
         Task task = taskRepository.findOne(taskId);
         if (developer.getTaskIds() == null)
             developer.setTaskIds(new ArrayList<>());
+        task.setDeveloperId(developer.getId());
         task.setStatus(TaskStatus.IN_PROGRESS);
         developer.getTaskIds().add(task.getId());
+        taskRepository.save(task);
+        developerRepository.save(developer);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
