@@ -1,4 +1,5 @@
 import {Permission} from '../../scripts/utils/Permission'
+import {TaskList} from "../taskList/index";
 class Task {
     constructor(context, options) {
         this.context = context;
