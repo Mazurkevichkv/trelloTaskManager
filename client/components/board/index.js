@@ -30,34 +30,35 @@ class Board {
         request.send()
             .then((response) => {
                 console.log(response);
-                this.queue = response.queue;
-                this.tasksLists = response.developers;
-                this.initQueue();
-                this.initElements();
+                this.initQueue(response.queue);
+                this.initElements(response.developers);
             }).catch((error) => {
                 console.log("Error: " + error);
             })
             
     }
 
-    initElements() {
+    initElements(boards) {
+        this.tasksLists = boards;
         let index = 1;
-        for(let item in this.tasksLists) {
-            if(!this.tasksLists.hasOwnProperty(item)) continue;
+        for(let item in boards) {
+            if(!boards.hasOwnProperty(item)) continue;
             
             this.board.main.appendChild( Board.createBoardList(index) );
             this.elements[item] = new TaskList(document.querySelector(`#${Board.classes.list}${index}`), { 
-                tasks: this.tasksLists[item].tasks, 
-                firstName: this.tasksLists[item].firstName, 
+                tasks: boards[item].tasks, 
+                firstName: boards[item].firstName, 
                 index: index++
             });
         }
     }
 
-    initQueue () {
+    initQueue (tasks) {
+        this.queue = tasks;
         this.elements[0] = new TaskList(this.board.queue, {
-            tasks: this.queue, 
-            firstName: 'Queue', index: 0
+            tasks: tasks, 
+            firstName: 'Queue',
+            index: 0
         });
     }
 

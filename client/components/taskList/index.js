@@ -2,8 +2,8 @@ import {Task} from "../task/index";
 
 class TaskList {
     constructor(context, options) {
-        this.options = Object.assign(TaskList.defaults, options);
-
+        this.options = Object.assign({}, TaskList.defaults, options);
+        
         this.elements = {};
 
         context.appendChild(TaskList.createTaskList(options));
@@ -13,7 +13,7 @@ class TaskList {
 
         this.setTitle();
         this.initElements();
-
+        
     }
 
     static createTaskList(options) {
@@ -33,7 +33,9 @@ class TaskList {
 
     initElements() {
         let index = 1;
-        for(let item in TaskList.defaults.tasks) {
+        for(let item in this.options.tasks) {
+            if(!this.options.tasks.hasOwnProperty(item)) continue;
+            
             this.context.appendChild( Task.createElement(index) );
             this.elements[item] = new Task(document.querySelector(`#task${index++}`), {task: TaskList.defaults.tasks[item]});
         }
@@ -47,7 +49,6 @@ class TaskList {
 TaskList.classes = {
     root: "taskList",
     title: "taskList-title"
-
 };
 
 
