@@ -82,6 +82,12 @@ class Task {
         document.addEventListener("dragover", this.dragOverHandler);
         document.addEventListener("dragleave", this.dragLeaveHandler);
         document.addEventListener("drop", this.dropHandler);
+        
+        this.elements.taskCheck.addEventListener("click", this.taskCheckClickHandler.bind(this));
+    }
+
+    taskCheckClickHandler() {
+        this.elements.root.classList.add("task--isDone");
     }
     
     dragStartHandler(e) {
