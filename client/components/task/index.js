@@ -1,5 +1,6 @@
 import {Permission} from '../../scripts/utils/Permission'
 import {TaskList} from "../taskList/index";
+import {Request} from "../../scripts/utils/Request";
 class Task {
     constructor(context, options) {
         this.context = context;
@@ -23,13 +24,13 @@ class Task {
             this.elements.root.setAttribute("draggable", "true");
         }
 
-        this.doneRequest = new Request(`/rest/task/approved/${this.options.task.id}`, "POST", {
-            "Content-type": "application/json"
-        });
+        this.doneRequest = new Request(`/rest/task/approved/${this.options.task.id}`, "GET");
 
-        if(this.options.item.status === "DONE") {
+        if(this.options.task.status === "DONE") {
             this.elements.root.classList.add("task--isDone");
         }
+
+        this.context.setAttribute("data-task-index", this.options.taskIndex);
     }
 
     static createElement (index) {
@@ -82,7 +83,7 @@ class Task {
     }
 
     initHandlers() {
-        if(this.options.item.status !== "CREATED") {
+        if(this.options.task.status !== "DONE") {
             this.elements.taskCheck.addEventListener("click", this.taskCheckClickHandler.bind(this));
         }
 
@@ -126,10 +127,28 @@ class Task {
     dropHandler(e) {
         const container = Task.findContainer(e.target);
         if (!container) return;
+
         e.preventDefault();
+
         var data = e.dataTransfer.getData("text");
+
+        const listIndex = container.parentNode.getAttribute("data-list-index");
+
         container.parentNode.classList.remove(TaskList.modifiers.root.isDropable);
-        container.appendChild(document.getElementById(data));
+        let task = document.getElementById(data);
+
+        container.appendChild(task);
+
+        if(listIndex !== "queue") {
+            let req = new Request(`/rest/task/appoint/${Task.elements[task.getAttribute("data-task-index")].options.task.id}/to/${TaskList.elements[listIndex].options.userId}`, "GET");
+
+            req.send();
+        }
+        else {
+            let req = new Request(`/rest/task/unappoint/${Task.elements[task.getAttribute("data-task-index")].options.task.id}`, "GET");
+
+            req.send();
+        }
     }
 
     static findContainer (el) {
@@ -138,8 +157,13 @@ class Task {
     }
 }
 
+Task.elements = {};
+
 Task.defaults = {
     draggable: true,
+    task: {
+        status: "CREATED",
+    },
     onDragStart: function () {},
     onDragOver: function () {},
     onDrop: function () {}

@@ -32,11 +32,13 @@ class Board {
                 console.log(response);
                 this.queue = response.queue;
                 this.tasksLists = response.developers;
-                this.initQueue(response.queue);
-                this.initElements(response.developers);
             }).catch((error) => {
-                console.log("Error: " + error);
-            })
+            console.log("Error: " + error);
+            }).then(() => {
+                this.initQueue(this.queue);
+                this.initElements(this.tasksLists);
+            });
+
             
     }
 
@@ -48,10 +50,12 @@ class Board {
             
             this.board.main.appendChild(bl);
             
-            this.elements[item] = new TaskList(bl, {
+            TaskList.elements[item] = new TaskList(bl, {
                 tasks: boards[item].tasks, 
                 firstName: boards[item].firstName, 
-                index: Board.index
+                index: Board.index,
+                listIndex: item,
+                userId: boards[item].id
             });
 
             Board.index++;
@@ -59,22 +63,13 @@ class Board {
     }
 
     initQueue (tasks) {
-        this.elements[0] = new TaskList(this.board.queue, {
+        TaskList.elements["queue"] = new TaskList(this.board.queue, {
             tasks: tasks, 
             firstName: 'Queue',
-            index: 0
+            index: 0,
+            listIndex: "queue",
+            list: ""
         });
-    }
-
-    initUserTasks () {
-        for(let item in this.queue) {
-            if(!this.queue.hasOwnProperty(item)) continue;
-            
-            const div = document.createElement('div');
-            div.className = 'board-list';
-            this.board.main.appendChild( div );
-            this.elements[item] = new TaskList(div);
-        }
     }
 }
 

@@ -7,7 +7,7 @@ class TaskList {
         
         this.elements = {};
 
-        this.elements.root = TaskList.createTaskList(options);
+        this.elements.root = TaskList.createTaskList(this.options);
         this.elements.queue = TaskList.createTaskQueue();
         this.elements.title = TaskList.createTitle(this.options.firstName);
 
@@ -23,6 +23,7 @@ class TaskList {
     static createTaskList(options) {
         const taskList = document.createElement('div');
         taskList.className = TaskList.classes.root;
+        taskList.setAttribute("data-list-index", options.listIndex);
         taskList.setAttribute('id', `${TaskList.classes.root}${options.index}`);
         
         return taskList;
@@ -48,14 +49,16 @@ class TaskList {
             
             let task = Task.createElement(TaskList.index++);
             this.elements.queue.appendChild(task);
-            
-            this.elements[item] = new Task(task, {
+
+            Task.elements[this.options.tasks[item].id] = new Task(task, {
                 task: this.options.tasks[item],
-                draggable: Permission.isTeamLead
+                draggable: Permission.isTeamLead,
+                taskIndex: this.options.tasks[item].id
             });
         }
     }
 }
+TaskList.elements = {};
 
 TaskList.index = 1;
 
