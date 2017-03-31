@@ -6,6 +6,7 @@
   width: 260px;
   border-radius: 3px;
   cursor: pointer;
+  transition: $fade-transition;
   
   &--isDone {
     
@@ -15,12 +16,11 @@
     
   }
 
-  transition: $fade-transition;
-
   &-title {
     color: $light-black;
     font-weight: 400;
     font-size: 18px;
+    margin: 0;
   }
   
   &-description {

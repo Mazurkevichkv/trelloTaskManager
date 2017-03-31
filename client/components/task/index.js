@@ -67,7 +67,6 @@ class Task {
                 console.log(item + " is not found.");
             }
         }
-
     }
     
     changeStatus() {
