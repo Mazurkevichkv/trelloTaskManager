@@ -8,6 +8,8 @@
 
   min-width: 324px;
   
+  transition: $fade-transition;
+  
   &--isDropable {
     background-color: rgba($blue, 0.1);
   }
