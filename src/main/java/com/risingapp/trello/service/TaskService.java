@@ -80,7 +80,9 @@ public class TaskService {
         GetTasksResponse response = new GetTasksResponse();
         response.setTasks(new ArrayList<>());
         for (Task task : tasks) {
-            response.getTasks().add(convertTask(task));
+            if (task != null) {
+                response.getTasks().add(convertTask(task));
+            }
         }
         return response;
     }
@@ -92,7 +94,11 @@ public class TaskService {
         response.setText(task.getText());
         response.setStatus(task.getStatus());
         response.setCreatorId(task.getCreatorId());
-        response.setDeveloperId(task.getDeveloperId());
+        if (task.getDeveloperId() != null) {
+            response.setDeveloperId(
+                    task.getDeveloperId());
+        }
+
         if (task.getPriorityId() != null) {
             TaskPriority priority = prioritiesRepository.findOne(task.getPriorityId());
             response.setPriority(priority.getPriority());

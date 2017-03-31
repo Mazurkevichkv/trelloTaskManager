@@ -56,7 +56,7 @@ public class UserService {
         response.setDevelopers(new ArrayList<>());
         List<Developer> developers = developerRepository.findAll();
         if (developers != null) {
-            for (Developer developer : developerRepository.findAll()) {
+            for (Developer developer : developers) {
                 UserResponse userResponse = convertDeveloper(developer);
                 response.getDevelopers().add(userResponse);
             }

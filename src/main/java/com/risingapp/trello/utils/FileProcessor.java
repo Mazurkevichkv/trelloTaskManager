@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class FileProcessor {
 
-    private static final int TASK_ARGUMENTS_SIZE = 2;
+    private static final int TASK_ARGUMENTS_SIZE = 3;
     private static final int TASK_TITLE_ID = 0;
     private static final int TASK_CONTENT_ID = 1;
     private static final int TASK_PRIORITY_ID = 2;

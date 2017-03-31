@@ -2,6 +2,7 @@ package com.risingapp.trello;
 
 import com.risingapp.trello.entity.*;
 import com.risingapp.trello.repository.*;
+import com.risingapp.trello.utils.MockGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,8 @@ public class MockCreator {
     @Autowired private ProductOwnerRepository productOwnerRepository;
     @Autowired private TaskRepository taskRepository;
     @Autowired private PrioritiesRepository prioritiesRepository;
+
+    @Autowired private MockGenerator mockGenerator;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -45,32 +48,35 @@ public class MockCreator {
     @PostConstruct
     private void init() {
 
-        createTaskPriority();
-        createProductOwner();
-        createTeamLeads();
-        createDevelopers();
-        createTasks();
 
-        developer1.getTaskIds().add(task1.getId());
-        task1.setDeveloperId(developer1.getId());
-        developer1.getTaskIds().add(task2.getId());
-        task2.setDeveloperId(developer1.getId());
-        developer2.getTaskIds().add(task3.getId());
-        task3.setDeveloperId(developer2.getId());
-        developer2.getTaskIds().add(task4.getId());
-        task4.setDeveloperId(developer2.getId());
+        mockGenerator.mockDb();
 
-        taskRepository.save(task1);
-        taskRepository.save(task2);
-        taskRepository.save(task3);
-        taskRepository.save(task4);
-
-        developerRepository.save(developer1);
-        developerRepository.save(developer2);
-        developerRepository.save(developer3);
-
-        teamLeadRepository.save(teamLead1);
-        teamLeadRepository.save(teamLead2);
+//        createTaskPriority();
+//        createProductOwner();
+//        createTeamLeads();
+//        createDevelopers();
+//        createTasks();
+//
+//        developer1.getTaskIds().add(task1.getId());
+//        task1.setDeveloperId(developer1.getId());
+//        developer1.getTaskIds().add(task2.getId());
+//        task2.setDeveloperId(developer1.getId());
+//        developer2.getTaskIds().add(task3.getId());
+//        task3.setDeveloperId(developer2.getId());
+//        developer2.getTaskIds().add(task4.getId());
+//        task4.setDeveloperId(developer2.getId());
+//
+//        taskRepository.save(task1);
+//        taskRepository.save(task2);
+//        taskRepository.save(task3);
+//        taskRepository.save(task4);
+//
+//        developerRepository.save(developer1);
+//        developerRepository.save(developer2);
+//        developerRepository.save(developer3);
+//
+//        teamLeadRepository.save(teamLead1);
+//        teamLeadRepository.save(teamLead2);
     }
 
 
@@ -108,7 +114,7 @@ public class MockCreator {
         teamLead1 = new TeamLead();
         teamLead1.setEmail("teamLead1@gmail.com");
         teamLead1.setPassword("admin");
-        teamLead1.setFirstName("Team1");
+        teamLead1.setFirstName("Jack");
         teamLead1.setLastName("Lead1");
         teamLead1.setRegistrationDay(sdf.format(new Date()));
         teamLead1.setProductOwnerId(productOwner.getId());
