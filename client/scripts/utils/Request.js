@@ -5,11 +5,10 @@ class Request {
         this.headers = headers || {};
     }
 
-    send(data, options) {
+    send(data) {
         return new Promise((resolve, reject) => {
             let xhr, tid;
             data = data || {};
-            options = options || {};
 
             try {
                 xhr = Request.makeXhr();
@@ -72,11 +71,11 @@ class Request {
                 
             };
 
-            if(options.encode) {
-                xhr.send(queryString);
+            if(contentType === "application-json") {
+                xhr.send(JSON.stringify(data));
             }
             else {
-                xhr.send(JSON.stringify(data));
+                xhr.send(queryString);
             }
         });
     }

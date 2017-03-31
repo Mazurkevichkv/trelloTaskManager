@@ -23,9 +23,11 @@ class Task {
             this.elements.root.setAttribute("draggable", "true");
         }
 
-        this.doneRequest = new Request(`/rest/task/approved/${this.options.task.id}`, "POST");
+        this.doneRequest = new Request(`/rest/task/approved/${this.options.task.id}`, "POST", {
+            "Content-type": "application/json"
+        });
 
-        if(this.options.item.status !== "CREATED") {
+        if(this.options.item.status === "DONE") {
             this.elements.root.classList.add("task--isDone");
         }
     }
