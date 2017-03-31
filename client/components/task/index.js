@@ -24,9 +24,7 @@ class Task {
             this.elements.root.setAttribute("draggable", "true");
         }
 
-        this.doneRequest = new Request(`/rest/task/approved/${this.options.task.id}`, "POST", {
-            "Content-type": "application/json"
-        });
+        this.doneRequest = new Request(`/rest/task/approved/${this.options.task.id}`, "GET");
 
         if(this.options.task.status === "DONE") {
             this.elements.root.classList.add("task--isDone");
@@ -142,14 +140,14 @@ class Task {
         container.appendChild(task);
 
         if(listIndex !== "queue") {
-            let req = new Request(`/rest/task/appoint/${Task.elements[task.getAttribute("data-task-index")].options.task.id}/to/${TaskList.elements[listIndex].options.userId}`, "POST", {
-                "Content-type": "application/json"
-            });
+            let req = new Request(`/rest/task/appoint/${Task.elements[task.getAttribute("data-task-index")].options.task.id}/to/${TaskList.elements[listIndex].options.userId}`, "GET");
 
             req.send();
         }
         else {
+            let req = new Request(`/rest/task/unappoint/${Task.elements[task.getAttribute("data-task-index")].options.task.id}`, "GET");
 
+            req.send();
         }
     }
 
