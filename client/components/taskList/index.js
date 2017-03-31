@@ -7,11 +7,14 @@ class TaskList {
         
         this.elements = {};
 
-        context.appendChild(TaskList.createTaskList(options));
+        this.elements.root = TaskList.createTaskList(options);
+        this.elements.queue = TaskList.createTaskQueue();
 
-        this.context = context.querySelector(`#${TaskList.classes.root}${options.index}`);
-        this.elements.root = this.context;
+        this.elements.root.appendChild(this.elements.queue);
+        context.appendChild(this.elements.root);
 
+        this.context = this.elements.root;
+                
         this.setTitle();
         this.initElements();
     }
@@ -20,8 +23,15 @@ class TaskList {
         const taskList = document.createElement('div');
         taskList.className = TaskList.classes.root;
         taskList.setAttribute('id', `${TaskList.classes.root}${options.index}`);
-
+        
         return taskList;
+    }
+
+    static  createTaskQueue() {
+        const taskQueue = document.createElement('div');
+        taskQueue.className = TaskList.classes.queue;
+        
+        return taskQueue;
     }
 
     static createTitle (title) {
@@ -37,7 +47,7 @@ class TaskList {
             if(!this.options.tasks.hasOwnProperty(item)) continue;
             
             let task = Task.createElement(index);
-            this.context.appendChild(task);
+            this.elements.queue.appendChild(task);
             
             this.elements[item] = new Task(task, {
                 task: this.options.tasks[item],
@@ -53,7 +63,8 @@ class TaskList {
 
 TaskList.classes = {
     root: "taskList",
-    title: "taskList-title"
+    title: "taskList-title",
+    queue: "taskList-queue"
 };
 
 

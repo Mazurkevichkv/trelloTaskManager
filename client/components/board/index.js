@@ -50,6 +50,7 @@ class Board {
             this.board.main.appendChild(bl);
 
             console.log(this.board.main, bl);
+            
             this.elements[item] = new TaskList(document.querySelector(`#${Board.classes.list}${index}`), { 
                 tasks: boards[item].tasks, 
                 firstName: boards[item].firstName, 
