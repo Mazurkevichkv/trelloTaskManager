@@ -31,6 +31,8 @@ class Task {
         if(this.options.task.status === "DONE") {
             this.elements.root.classList.add("task--isDone");
         }
+
+        this.context.setAttribute("data-task-index", this.options.taskIndex);
     }
 
     static createElement (index) {
@@ -127,12 +129,28 @@ class Task {
     dropHandler(e) {
         const container = Task.findContainer(e.target);
         if (!container) return;
+
         e.preventDefault();
+
         var data = e.dataTransfer.getData("text");
+
         const listIndex = container.parentNode.getAttribute("data-list-index");
         console.log(listIndex, TaskList.elements[listIndex]);
         container.parentNode.classList.remove(TaskList.modifiers.root.isDropable);
-        container.appendChild(document.getElementById(data));
+        let task = document.getElementById(data);
+
+        container.appendChild(task);
+
+        if(listIndex !== "queue") {
+            let req = new Request(`/rest/task/appoint/${Task.elements[task.getAttribute("data-task-index")].options.task.id}/to/${TaskList.elements[listIndex].options.userId}`, "POST", {
+                "Content-type": "application/json"
+            });
+
+            req.send();
+        }
+        else {
+
+        }
     }
 
     static findContainer (el) {

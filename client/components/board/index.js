@@ -54,7 +54,8 @@ class Board {
                 tasks: boards[item].tasks, 
                 firstName: boards[item].firstName, 
                 index: Board.index,
-                listIndex: item
+                listIndex: item,
+                userId: boards[item].id
             });
 
             Board.index++;
@@ -66,7 +67,8 @@ class Board {
             tasks: tasks, 
             firstName: 'Queue',
             index: 0,
-            listIndex: "queue"
+            listIndex: "queue",
+            list: ""
         });
     }
 }
