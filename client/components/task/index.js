@@ -83,7 +83,7 @@ class Task {
     }
 
     initHandlers() {
-        if(this.options.task.status === "DONE") {
+        if(this.options.task.status !== "DONE") {
             this.elements.taskCheck.addEventListener("click", this.taskCheckClickHandler.bind(this));
         }
 
