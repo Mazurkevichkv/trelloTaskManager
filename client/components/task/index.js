@@ -28,7 +28,7 @@ class Task {
             "Content-type": "application/json"
         });
 
-        if(this.options.item.status === "DONE") {
+        if(this.options.task.status === "DONE") {
             this.elements.root.classList.add("task--isDone");
         }
     }

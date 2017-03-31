@@ -71,12 +71,17 @@ class Request {
                 
             };
 
+            let reqData;
+
             if(contentType === "application-json") {
-                xhr.send(data);
+                reqData = JSON.stringify(data);
             }
             else {
-                xhr.send(queryString);
+                reqData = queryString;
             }
+            console.log(reqData);
+
+            xhr.send(reqData);
         });
     }
 
