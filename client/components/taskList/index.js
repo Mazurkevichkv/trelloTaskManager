@@ -38,7 +38,7 @@ class TaskList {
             
             let task = Task.createElement(index);
             this.context.appendChild(task);
-            debugger;
+            
             this.elements[item] = new Task(task, {
                 task: this.options.tasks[item],
                 draggable: Permission.isTeamLead

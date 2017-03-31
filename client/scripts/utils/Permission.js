@@ -32,7 +32,7 @@ class Permission {
         const request = new Request("/rest/user/current", "GET");
 
         return request.send().then((response) => {
-            Permission.userRole = response.userRole;
+            Permission.userRole = response.role;
             console.log(response);
         });
     }
