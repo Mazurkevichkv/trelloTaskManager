@@ -40,7 +40,7 @@ class TaskList {
             this.context.appendChild(task);
             this.elements[item] = new Task(task, {
                 task: this.options.tasks[item],
-                draggable: Permission.isTeamLead()
+                draggable: Permission.isTeamLead
             });
         }
     }
