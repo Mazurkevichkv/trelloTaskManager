@@ -5,10 +5,11 @@ class Request {
         this.headers = headers || {};
     }
 
-    send(data) {
+    send(data, options) {
         return new Promise((resolve, reject) => {
             let xhr, tid;
             data = data || {};
+            options = options || {};
 
             try {
                 xhr = Request.makeXhr();
@@ -16,12 +17,14 @@ class Request {
                 reject(Request.ENOXHR);
             }
 
-            let payload = Request.encode(data);
+
+            let queryString = Request.encode(data);
+
             let url = this.url;
             
-            if (this.method === "GET" && payload) {
-                url += '?' + payload;
-                payload = null;
+            if (this.method === "GET" && queryString) {
+                url += '?' + queryString;
+                queryString = null;
             }
 
             xhr.open(this.method, url);
@@ -69,7 +72,12 @@ class Request {
                 
             };
 
-            xhr.send(payload);
+            if(options.encode) {
+                xhr.send(queryString);
+            }
+            else {
+                xhr.send(JSON.stringify(data));
+            }
         });
     }
 
