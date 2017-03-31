@@ -50,10 +50,11 @@ class Board {
             
             this.board.main.appendChild(bl);
             
-            this.elements[item] = new TaskList(bl, {
+            TaskList.elements[item] = new TaskList(bl, {
                 tasks: boards[item].tasks, 
                 firstName: boards[item].firstName, 
-                index: Board.index
+                index: Board.index,
+                listIndex: item
             });
 
             Board.index++;
@@ -61,22 +62,12 @@ class Board {
     }
 
     initQueue (tasks) {
-        this.elements[0] = new TaskList(this.board.queue, {
+        TaskList.elements["queue"] = new TaskList(this.board.queue, {
             tasks: tasks, 
             firstName: 'Queue',
-            index: 0
+            index: 0,
+            listIndex: "queue"
         });
-    }
-
-    initUserTasks () {
-        for(let item in this.queue) {
-            if(!this.queue.hasOwnProperty(item)) continue;
-            
-            const div = document.createElement('div');
-            div.className = 'board-list';
-            this.board.main.appendChild( div );
-            this.elements[item] = new TaskList(div);
-        }
     }
 }
 

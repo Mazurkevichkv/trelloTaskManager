@@ -7,7 +7,7 @@ class TaskList {
         
         this.elements = {};
 
-        this.elements.root = TaskList.createTaskList(options);
+        this.elements.root = TaskList.createTaskList(this.options);
         this.elements.queue = TaskList.createTaskQueue();
         this.elements.title = TaskList.createTitle(this.options.firstName);
 
@@ -23,6 +23,7 @@ class TaskList {
     static createTaskList(options) {
         const taskList = document.createElement('div');
         taskList.className = TaskList.classes.root;
+        taskList.setAttribute("data-list-index", options.listIndex);
         taskList.setAttribute('id', `${TaskList.classes.root}${options.index}`);
         
         return taskList;
@@ -59,6 +60,7 @@ class TaskList {
         }
     }
 }
+TaskList.elements = {};
 
 TaskList.index = 1;
 

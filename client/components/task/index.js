@@ -129,6 +129,8 @@ class Task {
         if (!container) return;
         e.preventDefault();
         var data = e.dataTransfer.getData("text");
+        const listIndex = container.parentNode.getAttribute("data-list-index");
+        console.log(listIndex, TaskList.elements[listIndex]);
         container.parentNode.classList.remove(TaskList.modifiers.root.isDropable);
         container.appendChild(document.getElementById(data));
     }
